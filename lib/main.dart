@@ -1,7 +1,10 @@
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'dart:io' show Platform;
 import 'destination.dart';
+import 'facebook.dart';
+import 'listentries.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,6 +25,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int selectedIndex = 0;
+  final widgetElements = new ListEntries(); // from listentries.dart
   String FB_INTERSTITIAL_AD_ID =
       "IMG_16_9_APP_INSTALL#2312433698835503_2650502525028617";
   bool isInterstitialAdLoaded = false;
@@ -35,7 +40,6 @@ class _HomePageState extends State<HomePage> {
     _loadInterstitialAd();
     loadBannerAd();
     _showInterstitialAd();
-
     super.initState();
   }
 
@@ -63,22 +67,24 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget _bannerAd = SizedBox(width: 0, height: 0);
+  Widget bannerAd = SizedBox(width: 0, height: 0);
 
   void loadBannerAd() {
-    setState(() {
-      _bannerAd = FacebookBannerAd(
-        placementId: Platform.isAndroid
-            //? "1330190004069862_1330190360736493"
-            ? "IMG_16_9_APP_INSTALL#2312433698835503_2964944860251047"
-            : "1330190004069862_1330224187399777",
-        //placementId: "IMG_16_9_APP_INSTALL#2312433698835503_2964944860251047",
-        bannerSize: BannerSize.STANDARD,
-        listener: (result, value) {
-          print("$result == $value");
-        },
-      );
-    });
+    setState(
+      () {
+        bannerAd = FacebookBannerAd(
+          placementId: Platform.isAndroid
+              ? "IMG_16_9_APP_INSTALL#1330190004069862_1330190360736493"
+              //  : "IMG_16_9_APP_INSTALL#2312433698835503_2964944860251047",
+              : "IMG_16_9_APP_INSTALL#1330190004069862_1330224187399777",
+          //placementId: "IMG_16_9_APP_INSTALL#2312433698835503_2964944860251047",
+          bannerSize: BannerSize.STANDARD,
+          listener: (result, value) {
+            print("$result == $value");
+          },
+        );
+      },
+    );
   }
 
   @override
@@ -88,6 +94,11 @@ class _HomePageState extends State<HomePage> {
         title: Text("Dictionary of Insurance"),
       ),
       body: Center(
+        // Up to here is the same
+        //
+        child: widgetElements,
+
+        /*
         child: ListView(
           children: <Widget>[
             const SizedBox(height: 5),
@@ -102,7 +113,7 @@ class _HomePageState extends State<HomePage> {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SecondRoute()),
+                    MaterialPageRoute(builder: (context) => Destination()),
                   );
                 },
                 color: Colors.blue[300],
@@ -771,34 +782,11 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
             ),
-            FlatButton(
-              child: Text("Load Banner Ad"),
-              onPressed: () => loadBannerAd(),
-            ),
-            FlatButton(
-                child: Text("Load Interstitial Ad"),
-                onPressed: () => _showInterstitialAd()),
-            Flexible(
-              child: Container(),
-              flex: 1,
-              fit: FlexFit.loose,
-            ),
-            _bannerAd
           ],
         ),
+        */
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.business),
-            label: 'Business',
-          ),
-        ],
-      ),
+      bottomNavigationBar: bannerAd,
     );
   }
 }

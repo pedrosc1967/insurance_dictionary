@@ -91,7 +91,11 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Dictionary of Insurance"),
+        backgroundColor: Colors.black,
+        title: Text(
+          "Dictionary of Insurance Terms",
+          style: TextStyle(fontSize: 20),
+        ),
       ),
       body: Center(
         // Up to here is the same

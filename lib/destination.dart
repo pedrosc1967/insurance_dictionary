@@ -80,17 +80,25 @@ class DestinationState extends State<Destination> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        //title: Text(args.entry),
-        title: Text("Accidente"),
+        title: Text(
+          widget.entry,
+          style: TextStyle(fontSize: 20),
+        ),
+        backgroundColor: Colors.black,
       ),
       body: Center(
         //mainAxisSize: MainAxisSize.min,
         child: ListView(
           children: <Widget>[
-            const Text(
-                '\n \nAn unexpected event or circumstance without deliberate intent, pito. \n\n',
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20)),
+            Container(
+              margin: EdgeInsets.only(
+                  left: 30.0, right: 30.0, top: 30.0, bottom: 30.0),
+              child: Text(
+                widget.definition,
+                textAlign: TextAlign.left,
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
             Container(
               color: Colors.transparent,
               width: MediaQuery.of(context).size.width,
@@ -105,7 +113,7 @@ class DestinationState extends State<Destination> {
                   //_showInterstitialAd();
                   //print('Vuelta a main');
                 },
-                color: Colors.blue[300],
+                color: Colors.blue[900],
                 child: Text(
                   "Back to Contents",
                   style: TextStyle(

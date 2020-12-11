@@ -6,28 +6,45 @@ PODS:
     - FBSDKCoreKit/Basics (>= 5.6.0)
   - FBSDKCoreKit/Basics (8.2.0)
   - Flutter (1.0.0)
+  - OneSignal (2.16.1)
+  - onesignal_flutter (2.6.2):
+    - Flutter
+    - OneSignal (= 2.16.1)
+  - url_launcher (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - facebook_audience_network (from `.symlinks/plugins/facebook_audience_network/ios`)
   - Flutter (from `Flutter`)
+  - OneSignal (< 3.0, >= 2.9.3)
+  - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
   trunk:
     - FBAudienceNetwork
     - FBSDKCoreKit
+    - OneSignal
 
 EXTERNAL SOURCES:
   facebook_audience_network:
     :path: ".symlinks/plugins/facebook_audience_network/ios"
   Flutter:
     :path: Flutter
+  onesignal_flutter:
+    :path: ".symlinks/plugins/onesignal_flutter/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
   facebook_audience_network: ac182eb8f9c22f646baea97d5f5fb1f0f7521ab8
   FBAudienceNetwork: 6cdcc40aa475e8045ab14398e181a3dc90a5014e
   FBSDKCoreKit: 4afd6ff53d8133a433dbcda44451c9498f8c6ce4
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  OneSignal: 5f6514ec2b931306eb067acb124afbb2e49970af
+  onesignal_flutter: 260bb95c0a2d791c990c7bd8749525c9834d43fc
+  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
-PODFILE CHECKSUM: a75497545d4391e2d394c3668e20cfb1c2bbd4aa
+PODFILE CHECKSUM: 3bd2effb69a0bba18dfd97158385bbb04cb52c7e
 
-COCOAPODS: 1.9.3
+COCOAPODS: 1.10.0

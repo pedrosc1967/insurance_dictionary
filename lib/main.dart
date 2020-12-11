@@ -2,9 +2,13 @@ import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'dart:io' show Platform;
-import 'destination.dart';
-import 'facebook.dart';
+import 'facebook_code.dart';
 import 'listentries.dart';
+import 'custom_dialog.dart';
+import 'navigate.dart';
+import 'constants.dart';
+import 'package:onesignal_flutter/onesignal_flutter.dart';
+import 'dart:io';
 
 void main() {
   runApp(MyApp());
@@ -27,64 +31,32 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
   final widgetElements = new ListEntries(); // from listentries.dart
-  String FB_INTERSTITIAL_AD_ID =
-      "IMG_16_9_APP_INSTALL#2312433698835503_2650502525028617";
   bool isInterstitialAdLoaded = false;
 
   @override
-  void initState() {
+  Future<void> initState() {
     FacebookAudienceNetwork.init(
       testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
     );
 
-    _loadInterstitialAd();
+    //Remove this method to stop OneSignal Debugging
+    OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
+
+    OneSignal.shared.init("934893a3-d7e2-4130-a314-fe29eb59f5f4", iOSSettings: {
+      OSiOSSettings.autoPrompt: false,
+      OSiOSSettings.inAppLaunchUrl: false
+    });
+    OneSignal.shared
+        .setInFocusDisplayType(OSNotificationDisplayType.notification);
+
+// The promptForPushNotificationsWithUserResponse function will show the iOS push notification prompt. We recommend removing the following code and instead using an In-App Message to prompt for notification permission
+    OneSignal.shared
+        .promptUserForPushNotificationPermission(fallbackToSettings: true);
+
+    loadInterstitialAd();
     loadBannerAd();
-    _showInterstitialAd();
+    showInterstitialAd();
     super.initState();
-  }
-
-  void _loadInterstitialAd() {
-    FacebookInterstitialAd.loadInterstitialAd(
-      placementId: FB_INTERSTITIAL_AD_ID,
-      listener: (result, value) {
-        if (result == InterstitialAdResult.LOADED) {
-          isInterstitialAdLoaded = true;
-        }
-        if (result == InterstitialAdResult.DISMISSED &&
-            value["invalidated"] == true) {
-          isInterstitialAdLoaded = false;
-          _loadInterstitialAd();
-        }
-      },
-    );
-  }
-
-  _showInterstitialAd() {
-    if (isInterstitialAdLoaded == true) {
-      FacebookInterstitialAd.showInterstitialAd();
-    } else {
-      print("Ad not loaded yet, pito");
-    }
-  }
-
-  Widget bannerAd = SizedBox(width: 0, height: 0);
-
-  void loadBannerAd() {
-    setState(
-      () {
-        bannerAd = FacebookBannerAd(
-          placementId: Platform.isAndroid
-              ? "IMG_16_9_APP_INSTALL#1330190004069862_1330190360736493"
-              //  : "IMG_16_9_APP_INSTALL#2312433698835503_2964944860251047",
-              : "IMG_16_9_APP_INSTALL#1330190004069862_1330224187399777",
-          //placementId: "IMG_16_9_APP_INSTALL#2312433698835503_2964944860251047",
-          bannerSize: BannerSize.STANDARD,
-          listener: (result, value) {
-            print("$result == $value");
-          },
-        );
-      },
-    );
   }
 
   @override
@@ -97,698 +69,71 @@ class _HomePageState extends State<HomePage> {
           style: TextStyle(fontSize: 20),
         ),
       ),
-      body: Center(
-        // Up to here is the same
-        //
-        child: widgetElements,
-
-        /*
+      // Hamburguer menu AKA drawer in flutter
+      drawer: Drawer(
         child: ListView(
           children: <Widget>[
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => Destination()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Accident",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
+            ListTile(
+              title: Text(
+                "Other Apps",
+                style: TextStyle(fontSize: 20),
               ),
+              onTap: () {
+                launchURL(Platform.isAndroid
+                    ? Constants.URLOtherAppsAndroid
+                    : Constants.URLOtherAppsIOS);
+              },
+              trailing: Icon(Icons.arrow_forward),
             ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ThirdRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Accident Insurance",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
+            ListTile(
+              title: Text(
+                "About",
+                style: TextStyle(fontSize: 20),
               ),
+              onTap: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CustomDialogBox(
+                        title: "Dictionary of Insurance",
+                        descriptions:
+                            "Dictionary of Insurance Terms by Aplanetbit. \n \nSource: © 2021 National Association of Insurance Commissioners (NAIC). Reprinted with permission. Further reprint or distribution strictly prohibited without written permission of NAIC.\n \nIcons made by flaticon.com ",
+                        text: "Close",
+                      );
+                    });
+              },
+              trailing: Icon(Icons.arrow_forward),
             ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FourthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Accident Only",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
+            ListTile(
+              title: Text(
+                "Rate Us",
+                style: TextStyle(fontSize: 20),
               ),
+              onTap: () {
+                launchURL(Platform.isAndroid
+                    ? Constants.URLRateUsAndroid
+                    : Constants.URLRateUSIOS);
+              },
+              trailing: Icon(Icons.arrow_forward),
             ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FifthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Accident Only or AD&D",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
+            ListTile(
+              title: Text(
+                "AplanetBit Web",
+                style: TextStyle(fontSize: 20),
               ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SixthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Accidental Bodily Injury",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SeventhRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Accidental Death & Dismemberment",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EighthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Accumulation Period",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => NinethRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Actual Cash Value",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NinethAndAHalfRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Actuarial Report",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TenthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Actuary",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EleventhRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Adjuster",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TwelfthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Admission",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ThirteenthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Admitted Assets",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FourteenthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Admitted Company",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => FifteenthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Advance Premiums",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SixteenthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Adverse Selection",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => SeventeenthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Advisory Organization",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => EithteenthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Affiliate",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => NineteenthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Agent",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TwentythRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Aggregate",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TwentyFirsthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Aggregate Cost Payments",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TwentySecondthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Aircraft",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TwentyThirthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "ALAE",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => TwentyFourthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Alien Company ",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TwentyFifthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "Allied Lines",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => TwentySixthRoute()),
-                  );
-                },
-                color: Colors.blue[300],
-                child: Text(
-                  "All-Risk",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 22.0,
-                  ),
-                ),
-              ),
+              onTap: () {
+                launchURL(Constants.URLAplanetBit);
+              },
+              trailing: Icon(Icons.arrow_forward),
             ),
           ],
         ),
-        */
+      ),
+      body: Center(
+        //
+        // Here comes the definition of all the buttons from listentries.dart
+        //
+        child: widgetElements,
       ),
       bottomNavigationBar: bannerAd,
     );

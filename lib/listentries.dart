@@ -2,6 +2,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'destination.dart';
+import 'package:insurance_dictionary/facebook_code.dart';
+import 'dart:io';
 
 class ListEntries extends StatefulWidget {
   ListEntries({Key key}) : super(key: key);
@@ -11,6 +13,10 @@ class ListEntries extends StatefulWidget {
 }
 
 class ListEntriesState extends State<ListEntries> {
+  bool isFirstUse = true;
+  int numUses = 0;
+  int cycle = 5;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,15 +40,24 @@ class ListEntriesState extends State<ListEntries> {
                         borderRadius: new BorderRadius.circular(30.0),
                       ),
                       onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => Destination(
-                              entry: entrada['Entry'],
-                              definition: entrada['Definition'],
+                        if ((isFirstUse) || (numUses % cycle == 0)) {
+                          loadInterstitialAd();
+                          sleep(Duration(milliseconds: 100));
+                          showInterstitialAd();
+                          isFirstUse = false;
+                          numUses++;
+                        } else {
+                          numUses++;
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Destination(
+                                entry: entrada['Entry'],
+                                definition: entrada['Definition'],
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
                       },
                       color: Colors.blue[900],
                       child: Text(
@@ -50,23 +65,9 @@ class ListEntriesState extends State<ListEntries> {
                         style: TextStyle(
                           color: Colors.white,
                           fontFamily: 'Raleway',
-                          fontSize: 22.0,
+                          fontSize: 18.0,
                         ),
                       ),
-
-                      /*Card(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          Text("\n" + entrada['Entry'],
-                              style: TextStyle(
-                                  fontWeight: FontWeight.bold, fontSize: 24)),
-                          Text(entrada['Definition'] + "\n",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.normal, fontSize: 20)),
-                        ],
-                      ),
-                    ); */
                     ),
                   );
                 },

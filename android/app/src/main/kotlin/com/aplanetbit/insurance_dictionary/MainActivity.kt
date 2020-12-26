@@ -1,4 +1,4 @@
-package com.aplanetbit.insurance_dictionary
+package com.aplanetbit.dictionary.insurance
 
 import io.flutter.embedding.android.FlutterActivity
 

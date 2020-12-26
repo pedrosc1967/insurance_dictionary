@@ -11,6 +11,7 @@ class Constants {
   static const String URLOtherAppsIOS = 'https://aplanetbit.com';
   static const String URLAplanetBit = 'https://aplanetbit.com';
   static const String URLRateUsAndroid =
-      'https://play.google.com/store/apps/details?id=com.aplanetbit.learn.german.hd';
-  static const String URLRateUSIOS = 'https://aplanetbit.com';
+      'https://play.google.com/store/apps/details?id=com.aplanetbit.dictionary.insurance';
+  static const String URLRateUSIOS =
+      'https://apps.apple.com/us/app/dictionary-of-insurance/id1545741185';
 }

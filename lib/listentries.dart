@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'destination.dart';
 import 'package:insurance_dictionary/facebook_code.dart';
 import 'dart:io';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class ListEntries extends StatefulWidget {
   ListEntries({Key key}) : super(key: key);

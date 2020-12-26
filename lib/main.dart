@@ -9,16 +9,32 @@ import 'navigate.dart';
 import 'constants.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
 import 'dart:io';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_analytics/observer.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'dart:async';
+import 'package:package_info/package_info.dart';
+import 'package:flutter/services.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  static FirebaseAnalytics analytics = FirebaseAnalytics();
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: HomePage(),
+      navigatorObservers: [
+        FirebaseAnalyticsObserver(analytics: analytics),
+      ],
     );
   }
 }
@@ -30,6 +46,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int selectedIndex = 0;
+
+  PackageInfo _packageInfo = PackageInfo(
+    appName: 'Unknown',
+    packageName: 'Unknown',
+    version: 'Unknown',
+    buildNumber: 'Unknown',
+  );
+
   final widgetElements = new ListEntries(); // from listentries.dart
   bool isInterstitialAdLoaded = false;
 
@@ -53,10 +77,64 @@ class _HomePageState extends State<HomePage> {
     OneSignal.shared
         .promptUserForPushNotificationPermission(fallbackToSettings: true);
 
+    OneSignal.shared
+        .setNotificationReceivedHandler((OSNotification notification) {
+      // will be called whenever a notification is received
+    });
+
+    OneSignal.shared
+        .setNotificationOpenedHandler((OSNotificationOpenedResult result) {
+      // will be called whenever a notification is opened/button pressed.
+    });
+
+    OneSignal.shared.setPermissionObserver((OSPermissionStateChanges changes) {
+      // will be called whenever the permission changes
+      // (ie. user taps Allow on the permission prompt in iOS)
+    });
+
+    OneSignal.shared
+        .setSubscriptionObserver((OSSubscriptionStateChanges changes) {
+      // will be called whenever the subscription changes
+      //(ie. user gets registered with OneSignal and gets a user ID)
+    });
+
+    OneSignal.shared.setEmailSubscriptionObserver(
+        (OSEmailSubscriptionStateChanges emailChanges) {
+      // will be called whenever then user's email subscription changes
+      // (ie. OneSignal.setEmail(email) is called and the user gets registered
+    });
+
+// For each of the above functions, you can also pass in a
+// reference to a function as well:
+
     loadInterstitialAd();
     loadBannerAd();
-    showInterstitialAd();
     super.initState();
+    _initPackageInfo();
+
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+  }
+
+  // Release back device's orientations when the page is exited
+  @override
+  dispose() {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeRight,
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
+    super.dispose();
+  }
+
+  Future<void> _initPackageInfo() async {
+    final PackageInfo info = await PackageInfo.fromPlatform();
+    setState(() {
+      _packageInfo = info;
+    });
   }
 
   @override
@@ -97,7 +175,10 @@ class _HomePageState extends State<HomePage> {
                       return CustomDialogBox(
                         title: "Dictionary of Insurance",
                         descriptions:
-                            "Dictionary of Insurance Terms by Aplanetbit. \n \nSource: © 2021 National Association of Insurance Commissioners (NAIC). Reprinted with permission. Further reprint or distribution strictly prohibited without written permission of NAIC.\n \nIcons made by flaticon.com ",
+                            "Dictionary of Insurance Terms by Aplanetbit.\n " +
+                                "Version:" +
+                                _packageInfo.version +
+                                "\n\nSource: © 2021 National Association of Insurance Commissioners (NAIC). Reprinted with permission. Further reprint or distribution strictly prohibited without written permission of NAIC.\n \nIcons made by flaticon.com ",
                         text: "Close",
                       );
                     });

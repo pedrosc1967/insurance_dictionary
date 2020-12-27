@@ -16,10 +16,21 @@ import 'dart:async';
 import 'package:package_info/package_info.dart';
 import 'package:flutter/services.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
+import 'package:rate_my_app/rate_my_app.dart';
+import 'package:sentry/sentry.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await [
+    Firebase.initializeApp(),
+    SentryFlutter.init(
+      (options) {
+        options.dsn =
+            'https://7470e4eeb50e49fdba47b5e48d4e09f6@o496488.ingest.sentry.io/5571285';
+      },
+      //appRunner: () => runApp(MyApp()),
+    )
+  ];
   runApp(MyApp());
 }
 
@@ -54,6 +65,14 @@ class _HomePageState extends State<HomePage> {
     buildNumber: 'Unknown',
   );
 
+  RateMyApp rateMyApp = RateMyApp(
+    preferencesPrefix: 'rateMyApp_',
+    appStoreIdentifier: '1545741185',
+    minDays: 0, // Show rate popup on first day of install.
+    minLaunches:
+        8, // Show rate popup after 8 launches of app after minDays is passed.
+  );
+
   final widgetElements = new ListEntries(); // from listentries.dart
   bool isInterstitialAdLoaded = false;
 
@@ -61,6 +80,15 @@ class _HomePageState extends State<HomePage> {
   Future<void> initState() {
     FacebookAudienceNetwork.init(
       testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
+    );
+    //This is for Rate My App
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) async {
+        await rateMyApp.init();
+        if (mounted && rateMyApp.shouldOpenDialog) {
+          rateMyApp.showRateDialog(context);
+        }
+      },
     );
 
     //Remove this method to stop OneSignal Debugging
@@ -112,10 +140,12 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     _initPackageInfo();
 
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    SystemChrome.setPreferredOrientations(
+      [
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ],
+    );
   }
 
   // Release back device's orientations when the page is exited
@@ -130,11 +160,14 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
+  //Initialize PackageInfo
   Future<void> _initPackageInfo() async {
     final PackageInfo info = await PackageInfo.fromPlatform();
-    setState(() {
-      _packageInfo = info;
-    });
+    setState(
+      () {
+        _packageInfo = info;
+      },
+    );
   }
 
   @override
@@ -157,9 +190,17 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
-                launchURL(Platform.isAndroid
-                    ? Constants.URLOtherAppsAndroid
-                    : Constants.URLOtherAppsIOS);
+                try {
+                  launchURL(Platform.isAndroid
+                      ? Constants.URLOtherAppsAndroid
+                      : Constants.URLOtherAppsIOS);
+                } catch (exception, stackTrace) {
+                  Sentry.captureException(
+                    exception,
+                    stackTrace: stackTrace,
+                  );
+                }
+                ;
               },
               trailing: Icon(Icons.arrow_forward),
             ),
@@ -191,9 +232,13 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
+                rateMyApp.showRateDialog(context);
+                /*
                 launchURL(Platform.isAndroid
                     ? Constants.URLRateUsAndroid
                     : Constants.URLRateUSIOS);
+
+                 */
               },
               trailing: Icon(Icons.arrow_forward),
             ),
@@ -203,7 +248,14 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
-                launchURL(Constants.URLAplanetBit);
+                try {
+                  launchURL(Constants.URLAplanetBit);
+                } catch (exception, stackTrace) {
+                  Sentry.captureException(
+                    exception,
+                    stackTrace: stackTrace,
+                  );
+                }
               },
               trailing: Icon(Icons.arrow_forward),
             ),

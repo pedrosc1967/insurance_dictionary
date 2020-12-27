@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:provider/provider.dart';
-import 'package:insurance_dictionary/listentries.dart';
-import 'package:insurance_dictionary/main.dart';
-
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   // Define a test. The TestWidgets function also provides a WidgetTester

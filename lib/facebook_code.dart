@@ -3,33 +3,6 @@ import 'package:flutter/material.dart';
 import 'dart:io' show Platform;
 import 'constants.dart';
 
-/*
-class Facebook extends StatefulWidget {
-  Facebook._();
-  @override
-  FacebookState createState() => FacebookState();
-}
-
-class FacebookState extends State<Facebook> {
-  String FB_INTERSTITIAL_AD_ID =
-      "IMG_16_9_APP_INSTALL#2312433698835503_2650502525028617";
-  bool isInterstitialAdLoaded = false;
-
-
-
-  @override
-  void initState() {
-    FacebookAudienceNetwork.init(
-      testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
-    );
-
-    _loadInterstitialAd();
-    //loadBannerAd();
-    //_showInterstitialAd();
-    super.initState();
-  }
- */
-
 bool isInterstitialAdLoaded = false;
 
 void loadInterstitialAd() {

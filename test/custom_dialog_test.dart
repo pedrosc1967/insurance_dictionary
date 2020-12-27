@@ -1,7 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:insurance_dictionary/custom_dialog.dart';
-import 'package:insurance_dictionary/main.dart';
 
 void main() {
   // Define a test. The TestWidgets function also provides a WidgetTester

@@ -83,6 +83,16 @@ PODS:
   - package_info (0.0.1):
     - Flutter
   - PromisesObjC (1.2.11)
+  - rate_my_app (0.7.1):
+    - Flutter
+  - Sentry (6.0.12):
+    - Sentry/Core (= 6.0.12)
+  - Sentry/Core (6.0.12)
+  - sentry_flutter (0.0.1):
+    - Flutter
+    - Sentry (~> 6.0.10)
+  - shared_preferences (0.0.1):
+    - Flutter
   - url_launcher (0.0.1):
     - Flutter
 
@@ -95,6 +105,9 @@ DEPENDENCIES:
   - OneSignal (< 3.0, >= 2.9.3)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
+  - rate_my_app (from `.symlinks/plugins/rate_my_app/ios`)
+  - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
@@ -112,6 +125,7 @@ SPEC REPOS:
     - nanopb
     - OneSignal
     - PromisesObjC
+    - Sentry
 
 EXTERNAL SOURCES:
   facebook_audience_network:
@@ -126,6 +140,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
+  rate_my_app:
+    :path: ".symlinks/plugins/rate_my_app/ios"
+  sentry_flutter:
+    :path: ".symlinks/plugins/sentry_flutter/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
 
@@ -149,6 +169,10 @@ SPEC CHECKSUMS:
   onesignal_flutter: 260bb95c0a2d791c990c7bd8749525c9834d43fc
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
+  rate_my_app: 3b64dd0876bd286001595ee2e69193e757c4d77c
+  Sentry: 8ffcfe3416e0a58b90bb1ae319e8e8a13022a03e
+  sentry_flutter: e57e33f56d5791e4effa48e85e44505367686b27
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
 PODFILE CHECKSUM: a1b19beff36f170242f932135a4c13b7f734ac8b

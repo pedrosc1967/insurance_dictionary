@@ -1,8 +1,6 @@
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
 import 'facebook_code.dart';
-import 'dart:io' show Platform;
-import 'constants.dart';
 
 // ignore: must_be_immutable
 class Destination extends StatefulWidget {
@@ -16,8 +14,6 @@ class Destination extends StatefulWidget {
 }
 
 class DestinationState extends State<Destination> {
-  //String FB_INTERSTITIAL_AD_ID =
-  //    "IMG_16_9_APP_INSTALL#2312433698835503_2650502525028617";
   bool isInterstitialAdLoaded = false;
 
   @override
@@ -27,7 +23,6 @@ class DestinationState extends State<Destination> {
     );
     loadInterstitialAd(); //This was called in main
     loadBannerAd();
-    //_showInterstitialAd();
     super.initState();
   }
 
@@ -64,9 +59,6 @@ class DestinationState extends State<Destination> {
                 ),
                 onPressed: () {
                   Navigator.pop(context);
-                  //_loadInterstitialAd();
-                  // _showInterstitialAd();
-                  //print('Vuelta a main');
                 },
                 color: Colors.blue[900],
                 child: Text(

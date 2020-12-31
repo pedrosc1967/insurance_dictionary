@@ -17,11 +17,7 @@ pipeline {
                     sh "git clone https://github.com/pedrosc1967/insurance_dictionary.git"
                 }
             }
-            stage ('Flutter Doctor') {
-                steps {
-                    sh "flutter doctor -v"
-                }
-            }
+
             stage ('Flutter Build APK') {
                 steps {
                     sh "flutter build apk"
@@ -39,11 +35,6 @@ pipeline {
                                sh "bundle install"
                                // sh "bundle exec fastlane buildAdHoc --verbose"
                       }
-                 }
-            }
-            stage('Cleanup') {
-                 steps {
-                       sh "flutter clean"
                  }
             }
     }

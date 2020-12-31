@@ -24,16 +24,16 @@ pipeline {
                 }
             }
 
-            stage('Flutter Build iOS') {
+            stage ('Flutter Build iOS') {
                  steps {
                      sh "flutter build ios --release --no-codesign"
                  }
             }
-            stage('Make iOS IPA ') {
+            stage ('Make iOS IPA ') {
                  steps {
                       dir('ios'){
                                sh "bundle install"
-                               // sh "bundle exec fastlane buildAdHoc --verbose"
+                               sh "bundle exec fastlane buildAdHoc --verbose"
                       }
                  }
             }

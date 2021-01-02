@@ -2,7 +2,7 @@ def appname = "Runner" //DON'T CHANGE THIS. This refers to the flutter 'Runner' 
 def xcarchive = "${appname}.xcarchive"
 
 pipeline {
-    agent any //Change this to whatever your flutter jenkins nodes are labeled.
+    agent any //Change this to whatever your flutter jenkins nodes are labeled. Any is ok
     environment {
         DEVELOPER_DIR="/Applications/Xcode.app/Contents/Developer/"  //This is necessary for Fastlane to access iOS Build things.
         PATH = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/aplanetbit/Development/flutter/bin:/System/Volumes/Data/Users/aplanetbit/Library/Android/sdk/platform-tools/:/Users/aplanetbit/Development/flutter/.pub-cache/bin:/Users/aplanetbit/Development/flutter/bin/cache/dart-sdk/bin/:/Users/aplanetbit/Development/sonar-scanner-4.5.0.2216-macosx/bin/:/Library/Apple/usr/bin"
@@ -37,8 +37,9 @@ pipeline {
                       }
                  }
             }
-            stage ('Notify Success') {
+            stage ('Notify Result') {
                  steps {
+                    step([$class: 'NotifyEventsPublisher']): Notify.Events
                       notifyEvents message: '<b>$BUILD_ID</b> - Built successfully' token: 'XCGa5nO7EOw-1u_vuJG5E_cLh17wieAF'
                       }
                  }

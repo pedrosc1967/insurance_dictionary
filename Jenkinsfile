@@ -37,10 +37,10 @@ pipeline {
                       }
                  }
             }
-            stage ('Notify Result') {
-                 steps {
-                      notifyEvents:  token: 'XCGa5nO7EOw-1u_vuJG5E_cLh17wieAF' message: '<b>$BUILD_ID</b> - Built successfully'
-                      }
-            }
+        //    stage ('Notify Result') {
+        //         steps {
+        //              notifyEvents  token: 'XCGa5nO7EOw-1u_vuJG5E_cLh17wieAF' message: '<b>$BUILD_ID</b> - Built successfully'
+        //              }
+        //   }
       }
 }

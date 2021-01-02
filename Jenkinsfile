@@ -39,8 +39,8 @@ pipeline {
             }
             stage ('Notify Result') {
                  steps {
-                      notifyEvents message: 'Hello <b>world</b>' token: 'XCGa5nO7EOw-1u_vuJG5E_cLh17wieAF'
-                      }
+                      notifyEvents message: 'Hello <b>world</b>' } # token: 'XCGa5nO7EOw-1u_vuJG5E_cLh17wieAF'
+                    #  }
                  }
             }
     }

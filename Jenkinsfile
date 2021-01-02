@@ -37,6 +37,11 @@ pipeline {
                       }
                  }
             }
-
+            stage ('Notify Success') {
+                 steps {
+                      notifyEvents message: '<b>$BUILD_ID</b> - Built successfully' token: 'XCGa5nO7EOw-1u_vuJG5E_cLh17wieAF'
+                      }
+                 }
+            }
     }
 }

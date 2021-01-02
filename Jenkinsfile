@@ -39,8 +39,7 @@ pipeline {
             }
             stage ('Notify Result') {
                  steps {
-                    step([$class: 'NotifyEventsPublisher']): Notify.Events
-                      notifyEvents message: '<b>$BUILD_ID</b> - Built successfully' token: 'XCGa5nO7EOw-1u_vuJG5E_cLh17wieAF'
+                      notifyEvents message: 'Hello <b>world</b>' token: 'XCGa5nO7EOw-1u_vuJG5E_cLh17wieAF'
                       }
                  }
             }

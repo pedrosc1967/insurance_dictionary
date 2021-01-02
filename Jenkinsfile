@@ -37,7 +37,10 @@ pipeline {
                       }
                  }
             }
-
-        }
-        notifyEvents message: 'Hello <b>world</b>' token: 'XCGa5nO7EOw-1u_vuJG5E_cLh17wieAF'
+            stage ('Notify Result') {
+                 steps {
+                      notifyEvents token: 'XCGa5nO7EOw-1u_vuJG5E_cLh17wieAF' message: '<b>$BUILD_ID</b> - Built successfully'
+                      }
+                 }
+            }
 }

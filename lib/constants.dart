@@ -8,7 +8,8 @@ class Constants {
   static const String interstitialIOS = '1330190004069862_1469593800129481';
   static const String URLOtherAppsAndroid =
       'https://play.google.com/store/apps/dev?id=8134258655084518574';
-  static const String URLOtherAppsIOS = 'https://aplanetbit.com';
+  static const String URLOtherAppsIOS =
+      'https://apps.apple.com/us/developer/fermina-soto-gonzlez/id1545741307';
   static const String URLAplanetBit = 'https://aplanetbit.com';
   static const String URLRateUsAndroid =
       'https://play.google.com/store/apps/details?id=com.aplanetbit.dictionary.insurance';

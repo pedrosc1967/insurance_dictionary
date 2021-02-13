@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'listentries.dart';
+// import 'listentries.dart';
 import 'destination.dart';
 import 'dart:convert';
 
@@ -47,7 +47,6 @@ class _SearchScreenState extends State<searchScreen> {
               child: TextField(
                 onChanged: (query) {
                   setState(() {
-                    // print(query);
                     searchedTerm = query;
                     //search is done here. Put query here
                     filterSearchResults(searchedTerm);

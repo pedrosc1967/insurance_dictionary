@@ -1,80 +1,145 @@
-import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
-import 'facebook_code.dart';
+import 'listentries.dart';
+import 'destination.dart';
+import 'dart:convert';
 
 // ignore: must_be_immutable
 class searchScreen extends StatefulWidget {
   final String searchTerm;
-
+  Map<String, String> results;
   searchScreen({this.searchTerm});
 
   @override
-  SearchInput createState() => SearchInput();
+  _SearchScreenState createState() => new _SearchScreenState();
 }
 
-class SearchInput extends State<searchScreen> {
-  bool isInterstitialAdLoaded = false;
-
-  @override
-  void initState() {
-    FacebookAudienceNetwork.init(
-      testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
-    );
-    loadInterstitialAd(); //This was called in main
-    loadBannerAd();
-    super.initState();
+filterSearchResults(query) async {
+  try {
+    final items = json.decode('assets/data.json'.toString());
+    var results = items
+        .where((item) => item['Entry'].toString().contains(query))
+        .toList();
+    return results;
+  } on FormatException {
+    print('Unexpected character');
   }
+}
 
+class _SearchScreenState extends State<searchScreen> {
+  _SearchScreenState();
+
+  String searchedTerm;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text(
-          widget.searchTerm,
+          "Back to Main Screen",
           style: TextStyle(fontSize: 20),
         ),
-        backgroundColor: Colors.black,
       ),
-      body: Center(
-        //mainAxisSize: MainAxisSize.min,
-        child: ListView(
+      body: Container(
+        child: Column(
           children: <Widget>[
-            Container(
-              margin: EdgeInsets.only(
-                  left: 30.0, right: 30.0, top: 30.0, bottom: 30.0),
-              child: Text(
-                widget.searchTerm,
-                textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 20),
-              ),
-            ),
-            Container(
-              color: Colors.transparent,
-              width: MediaQuery.of(context).size.width,
-              height: 60,
-              child: RaisedButton(
-                shape: new RoundedRectangleBorder(
-                  borderRadius: new BorderRadius.circular(30.0),
-                ),
-                onPressed: () {
-                  Navigator.pop(context);
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TextField(
+                onChanged: (query) {
+                  setState(() {
+                    // print(query);
+                    searchedTerm = query;
+                    //search is done here. Put query here
+                    filterSearchResults(searchedTerm);
+                  });
                 },
-                color: Colors.blue[900],
-                child: Text(
-                  "Back to Contents",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontFamily: 'Raleway',
-                    fontSize: 18.0,
+                decoration: InputDecoration(
+                  labelText: 'Search',
+                  hintText: 'Search your term',
+                  suffixIcon: Icon(Icons.search),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(25.0),
+                    ),
                   ),
                 ),
               ),
             ),
-            //bannerAd
+            Expanded(
+              child: FutureBuilder(
+                future: DefaultAssetBundle.of(context)
+                    .loadString('assets/data.json'),
+                builder: (context, snapshot) {
+                  var results;
+                  // String query = 'Accident';
+                  final items = json.decode(snapshot.data.toString());
+                  try {
+                    results = items
+                        .where((item) =>
+                            item['Entry'].toString().contains(searchedTerm))
+                        .toList();
+                    //  print(query);
+                  } on NoSuchMethodError {
+                    print('Error de  tipos');
+                    results = items;
+                  } catch (e) {
+                    print(e);
+                    //results = items;
+                  }
+
+                  //print(items);
+                  //print(results);
+                  //print(results.length);
+                  // results = items;
+
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemBuilder: (BuildContext context, int index) {
+                      var entrada = results[index];
+                      //print(entrada);
+
+                      return Container(
+                        margin: EdgeInsets.symmetric(vertical: 2.0),
+                        color: Colors.transparent,
+                        width: MediaQuery.of(context).size.width,
+                        height: 60,
+                        child: RaisedButton(
+                          shape: new RoundedRectangleBorder(
+                            borderRadius: new BorderRadius.circular(30.0),
+                          ),
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => Destination(
+                                  entry: entrada['Entry'],
+                                  definition: entrada['Definition'],
+                                ),
+                              ),
+                            );
+                          },
+                          color: Colors.blue[900],
+                          child: Text(
+                            entrada['Entry'],
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Raleway',
+                              fontSize: 18.0,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    itemCount: results == null ? 0 : results.length,
+                  );
+                },
+              ),
+              //child: searchedItems,
+            ),
           ],
         ),
       ),
-      bottomNavigationBar: bannerAd,
+      // bottomNavigationBar: bannerAd,
     );
   }
 }

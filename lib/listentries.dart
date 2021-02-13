@@ -6,7 +6,9 @@ import 'package:insurance_dictionary/facebook_code.dart';
 import 'dart:io';
 
 class ListEntries extends StatefulWidget {
-  ListEntries({Key key}) : super(key: key);
+  ListEntries({Key key, String entry, String definition}) : super(key: key);
+
+  get myIterable => null;
 
   @override
   ListEntriesState createState() => ListEntriesState();
@@ -16,6 +18,8 @@ class ListEntriesState extends State<ListEntries> {
   bool isFirstUse = true;
   int numUses = 0;
   int cycle = 5;
+  static List<ListEntries> listOfEntries;
+  static String estaEntrada;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +31,9 @@ class ListEntriesState extends State<ListEntries> {
                 DefaultAssetBundle.of(context).loadString('assets/data.json'),
             builder: (context, snapshot) {
               var entries = json.decode(snapshot.data.toString());
+              //print(entries);
               return ListView.builder(
+                shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
                   var entrada = entries[index];
                   return Container(

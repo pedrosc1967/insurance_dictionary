@@ -18,7 +18,7 @@ import 'package:flutter/services.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:sentry/sentry.dart';
-import 'package:flappy_search_bar/flappy_search_bar.dart';
+import 'search_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -266,7 +266,14 @@ class _HomePageState extends State<HomePage> {
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
-                rateMyApp.showRateDialog(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => searchScreen(
+                      searchTerm: ('Search your term'),
+                    ),
+                  ),
+                );
               },
               trailing: Icon(Icons.search),
             ),

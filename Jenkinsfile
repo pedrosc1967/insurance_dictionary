@@ -23,6 +23,7 @@ pipeline {
             stage ('Flutter Build APK') {
                 steps {
                     sh "flutter build apk"
+                    sh "cp /Users/aplanetbit/.jenkins/workspace/'Dictionary of Insurance'/build/app/outputs/flutter-apk/app-release.apk /Users/aplanetbit/Downloads/app-release.apk"
                     sh "/Users/aplanetbit/resignapk.sh"
                 }
             }

@@ -16,12 +16,14 @@ pipeline {
                     sh "rm -rf ios/fastlane/brbuild_ios" //This removes the brbuild_ios from the fastlane directory if it somehow still exists
                     sh "git clone https://github.com/pedrosc1967/insurance_dictionary.git"
                     sh "cp /Users/aplanetbit/StudioProjects/insurance_dictionary/android/key.properties /Users/aplanetbit/.jenkins/workspace/'Dictionary of Insurance'/insurance_dictionary/android/key.properties"
+
                 }
             }
 
             stage ('Flutter Build APK') {
                 steps {
                     sh "flutter build apk"
+                    sh "/Users/aplanetbit/resignapk.sh"
                 }
             }
 

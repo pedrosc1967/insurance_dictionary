@@ -205,32 +205,6 @@ class _HomePageState extends State<HomePage> {
               },
               trailing: Icon(Icons.apps),
             ),
-            /*
-            ListTile(
-              title: Text(
-                "About 1",
-                style: TextStyle(fontSize: 20),
-              ),
-              onTap: () {
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CustomDialogBox(
-                        title: "Dictionary of Insurance",
-                        descriptions:
-                            "Dictionary of Insurance Terms by Aplanetbit.\n " +
-                                "Version:" +
-                                _packageInfo.version +
-                                "\n\nSource: © 2021 National Association of Insurance Commissioners (NAIC). Reprinted with permission. Further reprint or distribution strictly prohibited without written permission of NAIC.\n \nIcons made by flaticon.com ",
-                        text: "Close",
-                      );
-                    });
-              },
-              trailing: Icon(Icons.arrow_forward),
-            ),
-            // hasta aqui
-
-             */
             ListTile(
               title: Text(
                 "About",
@@ -252,25 +226,6 @@ class _HomePageState extends State<HomePage> {
                         "\n\nSource: © 2021 National Association of Insurance Commissioners (NAIC). Reprinted with permission. Further reprint or distribution strictly prohibited without written permission of NAIC.\n \nIcons made by flaticon.com ",
                     applicationName: 'Dictionary of Insurance');
               },
-
-              /*
-                showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return CustomDialogBox(
-                        title: "Dictionary of Insurance",
-                        descriptions:
-                            "Dictionary of Insurance Terms by Aplanetbit.\n " +
-                                "Version:" +
-                                _packageInfo.version +
-                                "\n\nSource: © 2021 National Association of Insurance Commissioners (NAIC). Reprinted with permission. Further reprint or distribution strictly prohibited without written permission of NAIC.\n \nIcons made by flaticon.com ",
-                        text: "Close",
-                      );
-                    });
-              },
-              
-                 */
-              // fin
               trailing: Icon(Icons.arrow_forward),
             ),
             ListTile(
@@ -280,12 +235,6 @@ class _HomePageState extends State<HomePage> {
               ),
               onTap: () {
                 rateMyApp.showRateDialog(context);
-                /*
-                launchURL(Platform.isAndroid
-                    ? Constants.URLRateUsAndroid
-                    : Constants.URLRateUSIOS);
-
-                 */
               },
               trailing: Icon(Icons.speed),
             ),

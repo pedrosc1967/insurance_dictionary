@@ -4,10 +4,10 @@ import 'destination.dart';
 import 'dart:convert';
 
 // ignore: must_be_immutable
-class SearchScreen extends StatefulWidget {
+class AlphaSearchedScreen extends StatefulWidget {
   final String searchTerm;
   Map<String, String> results;
-  SearchScreen({this.searchTerm});
+  AlphaSearchedScreen({this.searchTerm});
 
   @override
   _SearchScreenState createState() => new _SearchScreenState();
@@ -17,7 +17,8 @@ filterSearchResults(query) async {
   try {
     final items = json.decode('assets/data.json'.toString());
     var results = items
-        .where((item) => item['Entry'].toString().contains(query))
+        .where((item) =>
+            item['Entry'].toString().startsWith(query.toString().toUpperCase()))
         .toList();
     return results;
   } on FormatException {
@@ -25,9 +26,10 @@ filterSearchResults(query) async {
   }
 }
 
-class _SearchScreenState extends State<SearchScreen> {
+class _SearchScreenState extends State<AlphaSearchedScreen> {
   _SearchScreenState();
 
+  var query;
   String searchedTerm;
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          "Back to Menu Items",
+          "Back to Alphabetical Index",
           style: TextStyle(fontSize: 20),
         ),
       ),
@@ -43,7 +45,8 @@ class _SearchScreenState extends State<SearchScreen> {
         child: Column(
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.all(1.0),
+              /*
               child: TextField(
                 onChanged: (query) {
                   setState(() {
@@ -63,6 +66,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   ),
                 ),
               ),
+              //hasta aqui
+
+               */
             ),
             Expanded(
               child: FutureBuilder(
@@ -74,16 +80,15 @@ class _SearchScreenState extends State<SearchScreen> {
                   final items = json.decode(snapshot.data.toString());
                   try {
                     results = items
-                        .where((item) =>
-                            item['Entry'].toString().contains(searchedTerm))
+                        .where((item) => item['Entry']
+                            .toString()
+                            .startsWith(widget.searchTerm.toUpperCase()))
                         .toList();
-                    //  print(query);
                   } on NoSuchMethodError {
-                    print('Error de  tipos');
+                    print('Error de tipos');
                     results = items;
                   } catch (e) {
                     print(e);
-                    //results = items;
                   }
 
                   return ListView.builder(
@@ -102,6 +107,13 @@ class _SearchScreenState extends State<SearchScreen> {
                             borderRadius: new BorderRadius.circular(30.0),
                           ),
                           onPressed: () {
+                            query = entrada['Entry'];
+                            searchedTerm = query;
+                            print('Query: ' + query);
+                            print('searchedTerm: ' + searchedTerm);
+                            //search is done here. Put query here
+                            //filterSearchResults(searchedTerm);
+
                             Navigator.push(
                               context,
                               MaterialPageRoute(

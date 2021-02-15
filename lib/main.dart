@@ -1,6 +1,7 @@
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:insurance_dictionary/alphabetical_screen.dart';
 import 'dart:io' show Platform;
 import 'facebook_code.dart';
 import 'listentries.dart';
@@ -201,13 +202,13 @@ class _HomePageState extends State<HomePage> {
                     stackTrace: stackTrace,
                   );
                 }
-                ;
               },
-              trailing: Icon(Icons.arrow_forward),
+              trailing: Icon(Icons.apps),
             ),
+            /*
             ListTile(
               title: Text(
-                "About",
+                "About 1",
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
@@ -227,6 +228,51 @@ class _HomePageState extends State<HomePage> {
               },
               trailing: Icon(Icons.arrow_forward),
             ),
+            // hasta aqui
+
+             */
+            ListTile(
+              title: Text(
+                "About",
+                style: TextStyle(fontSize: 20),
+              ),
+              onTap: () {
+                showAboutDialog(
+                    context: context,
+                    applicationVersion: '\n Version: ' + _packageInfo.version,
+                    applicationIcon: CircleAvatar(
+                      backgroundColor: Colors.transparent,
+                      radius: Constants.avatarRadius,
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.all(
+                              Radius.circular(Constants.avatarRadius)),
+                          child: Image.asset("assets/logoaplanetbit.png")),
+                    ),
+                    applicationLegalese:
+                        "\n\nSource: © 2021 National Association of Insurance Commissioners (NAIC). Reprinted with permission. Further reprint or distribution strictly prohibited without written permission of NAIC.\n \nIcons made by flaticon.com ",
+                    applicationName: 'Dictionary of Insurance');
+              },
+
+              /*
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return CustomDialogBox(
+                        title: "Dictionary of Insurance",
+                        descriptions:
+                            "Dictionary of Insurance Terms by Aplanetbit.\n " +
+                                "Version:" +
+                                _packageInfo.version +
+                                "\n\nSource: © 2021 National Association of Insurance Commissioners (NAIC). Reprinted with permission. Further reprint or distribution strictly prohibited without written permission of NAIC.\n \nIcons made by flaticon.com ",
+                        text: "Close",
+                      );
+                    });
+              },
+              
+                 */
+              // fin
+              trailing: Icon(Icons.arrow_forward),
+            ),
             ListTile(
               title: Text(
                 "Rate Us",
@@ -241,7 +287,7 @@ class _HomePageState extends State<HomePage> {
 
                  */
               },
-              trailing: Icon(Icons.arrow_forward),
+              trailing: Icon(Icons.speed),
             ),
             ListTile(
               title: Text(
@@ -258,7 +304,7 @@ class _HomePageState extends State<HomePage> {
                   );
                 }
               },
-              trailing: Icon(Icons.arrow_forward),
+              trailing: Icon(Icons.cloud),
             ),
             ListTile(
               title: Text(
@@ -269,13 +315,30 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => searchScreen(
+                    builder: (context) => SearchScreen(
                       searchTerm: ('Search your term'),
                     ),
                   ),
                 );
               },
               trailing: Icon(Icons.search),
+            ),
+            ListTile(
+              title: Text(
+                "Alphabetical Index",
+                style: TextStyle(fontSize: 20),
+              ),
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => alphabeticalScreen(
+                      searchTerm: ('Alphabetical index'),
+                    ),
+                  ),
+                );
+              },
+              trailing: Icon(Icons.sort_by_alpha),
             ),
           ],
         ),

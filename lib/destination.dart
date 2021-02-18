@@ -1,5 +1,6 @@
 import 'package:facebook_audience_network/facebook_audience_network.dart';
 import 'package:flutter/material.dart';
+import 'package:insurance_dictionary/tts_helper.dart';
 import 'facebook_code.dart';
 
 // ignore: must_be_immutable
@@ -50,6 +51,56 @@ class DestinationState extends State<Destination> {
               ),
             ),
             Container(
+              margin: EdgeInsets.symmetric(vertical: 2.0),
+              color: Colors.transparent,
+              width: MediaQuery.of(context).size.width,
+              height: 60,
+              child: RaisedButton(
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0),
+                ),
+                onPressed: () {
+                  speak(widget.entry);
+                  speak(widget.definition);
+                },
+                color: Colors.green[900],
+                child: Text(
+                  "Say it!",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Raleway',
+                    fontSize: 18.0,
+                  ),
+                ),
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 2.0),
+              color: Colors.transparent,
+              width: MediaQuery.of(context).size.width,
+              height: 60,
+              child: RaisedButton(
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(30.0),
+                ),
+                onPressed: () {
+                  stop();
+                },
+                color: Colors.red[900],
+                child: Text(
+                  "Stop",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'Raleway',
+                    fontSize: 18.0,
+                  ),
+                ),
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 2.0),
               color: Colors.transparent,
               width: MediaQuery.of(context).size.width,
               height: 60,

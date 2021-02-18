@@ -5,7 +5,6 @@ import 'package:insurance_dictionary/alphabetical_screen.dart';
 import 'dart:io' show Platform;
 import 'facebook_code.dart';
 import 'listentries.dart';
-import 'custom_dialog.dart';
 import 'navigate.dart';
 import 'constants.dart';
 import 'package:onesignal_flutter/onesignal_flutter.dart';
@@ -20,6 +19,8 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:rate_my_app/rate_my_app.dart';
 import 'package:sentry/sentry.dart';
 import 'search_screen.dart';
+import 'tts_helper.dart';
+import 'package:flutter_tts/flutter_tts.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -57,8 +58,9 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   int selectedIndex = 0;
+  FlutterTts flutterTts;
 
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
@@ -139,8 +141,10 @@ class _HomePageState extends State<HomePage> {
 
     loadInterstitialAd();
     loadBannerAd();
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
     _initPackageInfo();
+    initTts();
 
     SystemChrome.setPreferredOrientations(
       [
@@ -159,7 +163,16 @@ class _HomePageState extends State<HomePage> {
       DeviceOrientation.portraitUp,
       DeviceOrientation.portraitDown,
     ]);
+    // Stop speaking
+    stop();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print('state = $state');
+    if (state == AppLifecycleState.inactive) stop();
   }
 
   //Initialize PackageInfo
@@ -281,7 +294,7 @@ class _HomePageState extends State<HomePage> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => alphabeticalScreen(
+                    builder: (context) => AlphabeticalScreen(
                       searchTerm: ('Alphabetical index'),
                     ),
                   ),

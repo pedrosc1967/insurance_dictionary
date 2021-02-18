@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:insurance_dictionary/alpha_searched_screen.dart';
 // import 'listentries.dart';
-import 'destination.dart';
+// import 'destination.dart';
 import 'dart:convert';
 
 // ignore: must_be_immutable
-class alphabeticalScreen extends StatefulWidget {
+class AlphabeticalScreen extends StatefulWidget {
   final String searchTerm;
   Map<String, String> results;
-  alphabeticalScreen({this.searchTerm});
+  AlphabeticalScreen({this.searchTerm});
 
   @override
   _SearchScreenState createState() => new _SearchScreenState();
@@ -27,7 +27,7 @@ filterSearchResults(query) async {
   }
 }
 
-class _SearchScreenState extends State<alphabeticalScreen> {
+class _SearchScreenState extends State<AlphabeticalScreen> {
   _SearchScreenState();
 
   var query;

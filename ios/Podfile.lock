@@ -44,6 +44,8 @@ PODS:
     - GoogleUtilities/UserDefaults (~> 6.7)
     - PromisesObjC (~> 1.2)
   - Flutter (1.0.0)
+  - flutter_tts (0.0.1):
+    - Flutter
   - GoogleAppMeasurement (6.8.3):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
     - GoogleUtilities/MethodSwizzler (~> 6.7)
@@ -102,6 +104,7 @@ DEPENDENCIES:
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
+  - flutter_tts (from `.symlinks/plugins/flutter_tts/ios`)
   - OneSignal (< 3.0, >= 2.9.3)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
@@ -136,6 +139,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_core/ios"
   Flutter:
     :path: Flutter
+  flutter_tts:
+    :path: ".symlinks/plugins/flutter_tts/ios"
   onesignal_flutter:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info:
@@ -161,6 +166,7 @@ SPEC CHECKSUMS:
   FirebaseCoreDiagnostics: 770ac5958e1372ce67959ae4b4f31d8e127c3ac1
   FirebaseInstallations: 466c7b4d1f58fe16707693091da253726a731ed2
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_tts: 0f492aab6accf87059b72354fcb4ba934304771d
   GoogleAppMeasurement: 966e88df9d19c15715137bb2ddaf52373f111436
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3

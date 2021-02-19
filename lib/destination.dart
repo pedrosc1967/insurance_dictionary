@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:insurance_dictionary/tts_helper.dart';
 import 'facebook_code.dart';
 
-// ignore: must_be_immutable
+// ignore: must_be_immutable...
 class Destination extends StatefulWidget {
   final String entry;
   final String definition;

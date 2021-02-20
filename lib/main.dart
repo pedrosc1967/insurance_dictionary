@@ -137,7 +137,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     });
 
 // For each of the above functions, you can also pass in a
-// reference to a function as well:
+// reference to a function as well:....
 
     loadInterstitialAd();
     loadBannerAd();

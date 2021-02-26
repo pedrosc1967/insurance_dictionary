@@ -60,8 +60,7 @@ class DestinationState extends State<Destination> {
                   borderRadius: new BorderRadius.circular(30.0),
                 ),
                 onPressed: () {
-                  speak(widget.entry);
-                  speak(widget.definition);
+                  speak(widget.entry + '\n ' + widget.definition);
                 },
                 color: Colors.green[900],
                 child: Text(

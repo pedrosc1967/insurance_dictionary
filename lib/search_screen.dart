@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
-// import 'listentries.dart';
 import 'destination.dart';
 import 'dart:convert';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
+
+String query;
+String hint = 'Search your term';
+String status;
+
+stt.SpeechToText speech = stt.SpeechToText();
+bool isListening = false;
+String text = 'Press the button and start speaking';
+double level = 0.0;
+double minSoundLevel = 50000;
+double maxSoundLevel = -50000;
+int resultListened = 0;
+String lastWords = '';
+double confidence = 1.0;
 
 // ignore: must_be_immutable
 class SearchScreen extends StatefulWidget {
@@ -13,12 +27,20 @@ class SearchScreen extends StatefulWidget {
   _SearchScreenState createState() => new _SearchScreenState();
 }
 
+extension StringExtension on String {
+  String capitalize() {
+    return "${this[0].toUpperCase()}${this.substring(1)}";
+  }
+}
+
 filterSearchResults(query) async {
   try {
     final items = json.decode('assets/data.json'.toString());
     var results = items
-        .where((item) => item['Entry'].toString().contains(query))
+        .where((item) =>
+            item['Entry'].toString().contains(query.toString().capitalize()))
         .toList();
+    // print(results);
     return results;
   } on FormatException {
     print('Unexpected character');
@@ -29,6 +51,37 @@ class _SearchScreenState extends State<SearchScreen> {
   _SearchScreenState();
 
   String searchedTerm;
+
+  void voiceSearch() async {
+    if (!isListening) {
+      bool available = await speech.initialize(
+        onStatus: (val) => print('onStatus: $val'),
+        onError: (val) => print('onError: $val'),
+      );
+      if (available) {
+        setState(() => isListening = true);
+        speech.listen(
+          onResult: (val) => setState(
+            () {
+              query = val.recognizedWords;
+              searchedTerm = query.capitalize();
+              hint = query.capitalize();
+              //Search is done here.
+              filterSearchResults(searchedTerm);
+
+              if (val.hasConfidenceRating && val.confidence > 0) {
+                confidence = val.confidence;
+              }
+            },
+          ),
+        );
+      }
+    } else {
+      setState(() => isListening = false);
+      speech.stop();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,15 +99,26 @@ class _SearchScreenState extends State<SearchScreen> {
               padding: const EdgeInsets.all(8.0),
               child: TextField(
                 onChanged: (query) {
-                  setState(() {
-                    searchedTerm = query;
-                    //search is done here. Put query here
-                    filterSearchResults(searchedTerm);
-                  });
+                  setState(
+                    () {
+                      searchedTerm = query;
+                      //search is done here. Put query here
+                      filterSearchResults(searchedTerm);
+                    },
+                  );
                 },
                 decoration: InputDecoration(
                   labelText: 'Search',
-                  hintText: 'Search your term',
+                  hintText: hint,
+                  prefixIcon: IconButton(
+                    onPressed: () {
+                      voiceSearch();
+                      //if (!isListening) {
+                      //  hint = 'Search your term';
+                      // }
+                    },
+                    icon: Icon(isListening ? Icons.mic : Icons.mic_none),
+                  ),
                   suffixIcon: Icon(Icons.search),
                   border: OutlineInputBorder(
                     borderRadius: BorderRadius.all(
@@ -74,10 +138,11 @@ class _SearchScreenState extends State<SearchScreen> {
                   final items = json.decode(snapshot.data.toString());
                   try {
                     results = items
-                        .where((item) =>
-                            item['Entry'].toString().contains(searchedTerm))
+                        .where((item) => item['Entry']
+                            .toString()
+                            .contains(searchedTerm.capitalize()))
                         .toList();
-                    //  print(query);
+                    print(results);
                   } on NoSuchMethodError {
                     print('Error de  tipos');
                     results = items;

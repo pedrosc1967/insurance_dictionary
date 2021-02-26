@@ -95,6 +95,10 @@ PODS:
     - Sentry (~> 6.1.4)
   - shared_preferences (0.0.1):
     - Flutter
+  - speech_to_text (0.0.1):
+    - Flutter
+    - Try
+  - Try (2.1.1)
   - url_launcher (0.0.1):
     - Flutter
 
@@ -111,6 +115,7 @@ DEPENDENCIES:
   - rate_my_app (from `.symlinks/plugins/rate_my_app/ios`)
   - sentry_flutter (from `.symlinks/plugins/sentry_flutter/ios`)
   - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
+  - speech_to_text (from `.symlinks/plugins/speech_to_text/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
@@ -129,6 +134,7 @@ SPEC REPOS:
     - OneSignal
     - PromisesObjC
     - Sentry
+    - Try
 
 EXTERNAL SOURCES:
   facebook_audience_network:
@@ -151,6 +157,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sentry_flutter/ios"
   shared_preferences:
     :path: ".symlinks/plugins/shared_preferences/ios"
+  speech_to_text:
+    :path: ".symlinks/plugins/speech_to_text/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
 
@@ -179,6 +187,8 @@ SPEC CHECKSUMS:
   Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   sentry_flutter: 8b2b2e1c0101ef562106b5d272d3c0c741512c01
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  speech_to_text: b43a7d99aef037bd758ed8e45d79bbac035d2dfe
+  Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
 PODFILE CHECKSUM: a1b19beff36f170242f932135a4c13b7f734ac8b

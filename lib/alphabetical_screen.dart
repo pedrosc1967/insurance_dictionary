@@ -110,8 +110,8 @@ class _SearchScreenState extends State<AlphabeticalScreen> {
                           onPressed: () {
                             query = entrada['Entry'];
                             searchedTerm = query;
-                            print('Query: ' + query);
-                            print('searchedTerm: ' + searchedTerm);
+                            // print('Query: ' + query);
+                            // print('searchedTerm: ' + searchedTerm);
                             //search is done here. Put query here
                             filterSearchResults(searchedTerm);
 

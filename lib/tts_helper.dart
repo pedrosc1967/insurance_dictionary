@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'dart:io' show Platform;
 
 enum TtsState { playing, stopped }
 
@@ -9,7 +10,7 @@ dynamic languages;
 String language;
 double volume = 1.0;
 double pitch = 1.0;
-double rate = 0.7;
+double rate = 0.2;
 
 TtsState ttsState = TtsState.stopped;
 
@@ -22,24 +23,32 @@ initTts() {
 
   getLanguages();
 
+  if (Platform.isAndroid) {
+    rate = 1.1;
+    print('For Android Rate = ' + rate.toString());
+  } else {
+    rate = 0.48;
+    print('For iOS Rate = ' + rate.toString());
+  }
+
   flutterTts.setStartHandler;
   {
     print("playing");
     ttsState = TtsState.playing;
   }
-  ;
 
   flutterTts.setCompletionHandler;
   {
     print("Complete");
     ttsState = TtsState.stopped;
   }
-  ;
 
-  flutterTts.setErrorHandler((msg) {
-    print("error: $msg");
-    ttsState = TtsState.stopped;
-  });
+  flutterTts.setErrorHandler(
+    (msg) {
+      print("error: $msg");
+      ttsState = TtsState.stopped;
+    },
+  );
 }
 
 Future getLanguages() async {

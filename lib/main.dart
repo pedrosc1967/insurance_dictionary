@@ -21,6 +21,7 @@ import 'package:sentry/sentry.dart';
 import 'search_screen.dart';
 import 'tts_helper.dart';
 import 'package:flutter_tts/flutter_tts.dart';
+import 'package:speech_to_text/speech_to_text.dart' as stt;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -145,6 +146,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.initState();
     _initPackageInfo();
     initTts();
+    speech = stt.SpeechToText();
 
     SystemChrome.setPreferredOrientations(
       [

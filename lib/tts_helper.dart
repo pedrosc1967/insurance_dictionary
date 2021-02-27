@@ -25,10 +25,8 @@ initTts() {
 
   if (Platform.isAndroid) {
     rate = 1.1;
-    print('For Android Rate = ' + rate.toString());
   } else {
     rate = 0.48;
-    print('For iOS Rate = ' + rate.toString());
   }
 
   flutterTts.setStartHandler;

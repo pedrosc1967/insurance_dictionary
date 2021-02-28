@@ -24,6 +24,7 @@ pipeline {
                 steps {
                     sh "flutter build apk"
                     sh "cp /Users/aplanetbit/.jenkins/workspace/'Dictionary of Insurance'/build/app/outputs/flutter-apk/app-release.apk /Users/aplanetbit/Downloads/app-release.apk"
+                    sh "cd /Users/aplanetbit/Downloads"
                     sh "/Users/aplanetbit/resignapk.sh"
                 }
             }

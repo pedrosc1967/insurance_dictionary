@@ -46,29 +46,6 @@ class _SearchScreenState extends State<AlphaSearchedScreen> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(1.0),
-              /*
-              child: TextField(
-                onChanged: (query) {
-                  setState(() {
-                    searchedTerm = query;
-                    //search is done here. Put query here
-                    filterSearchResults(searchedTerm);
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Search',
-                  hintText: 'Search your term',
-                  suffixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                  ),
-                ),
-              ),
-              //hasta aqui
-
-               */
             ),
             Expanded(
               child: FutureBuilder(
@@ -76,7 +53,6 @@ class _SearchScreenState extends State<AlphaSearchedScreen> {
                     .loadString('assets/data.json'),
                 builder: (context, snapshot) {
                   var results;
-                  // String query = 'Accident';
                   final items = json.decode(snapshot.data.toString());
                   try {
                     results = items
@@ -95,7 +71,6 @@ class _SearchScreenState extends State<AlphaSearchedScreen> {
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                       var entrada = results[index];
-                      //print(entrada);
 
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 2.0),
@@ -109,11 +84,6 @@ class _SearchScreenState extends State<AlphaSearchedScreen> {
                           onPressed: () {
                             query = entrada['Entry'];
                             searchedTerm = query;
-                            print('Query: ' + query);
-                            print('searchedTerm: ' + searchedTerm);
-                            //search is done here. Put query here
-                            //filterSearchResults(searchedTerm);
-
                             Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -140,7 +110,6 @@ class _SearchScreenState extends State<AlphaSearchedScreen> {
                   );
                 },
               ),
-              //child: searchedItems,
             ),
           ],
         ),

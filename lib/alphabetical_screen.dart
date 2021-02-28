@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:insurance_dictionary/alpha_searched_screen.dart';
-// import 'listentries.dart';
-// import 'destination.dart';
 import 'dart:convert';
 
 // ignore: must_be_immutable
@@ -47,29 +45,6 @@ class _SearchScreenState extends State<AlphabeticalScreen> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(1.0),
-              /*
-              child: TextField(
-                onChanged: (query) {
-                  setState(() {
-                    searchedTerm = query;
-                    //search is done here. Put query here
-                    filterSearchResults(searchedTerm);
-                  });
-                },
-                decoration: InputDecoration(
-                  labelText: 'Search',
-                  hintText: 'Search your term',
-                  suffixIcon: Icon(Icons.search),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(25.0),
-                    ),
-                  ),
-                ),
-              ),
-              //hasta aqui
-
-               */
             ),
             Expanded(
               child: FutureBuilder(
@@ -77,7 +52,6 @@ class _SearchScreenState extends State<AlphabeticalScreen> {
                     .loadString('assets/alphabet.json'),
                 builder: (context, snapshot) {
                   var results;
-                  // String query = 'Accident';
                   final items = json.decode(snapshot.data.toString());
                   try {
                     results = items
@@ -96,7 +70,6 @@ class _SearchScreenState extends State<AlphabeticalScreen> {
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                       var entrada = results[index];
-                      //print(entrada);
 
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 2.0),
@@ -110,8 +83,6 @@ class _SearchScreenState extends State<AlphabeticalScreen> {
                           onPressed: () {
                             query = entrada['Entry'];
                             searchedTerm = query;
-                            // print('Query: ' + query);
-                            // print('searchedTerm: ' + searchedTerm);
                             //search is done here. Put query here
                             filterSearchResults(searchedTerm);
 
@@ -140,7 +111,6 @@ class _SearchScreenState extends State<AlphabeticalScreen> {
                   );
                 },
               ),
-              //child: searchedItems,
             ),
           ],
         ),

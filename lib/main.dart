@@ -22,6 +22,7 @@ import 'search_screen.dart';
 import 'tts_helper.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:share/share.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,7 +33,6 @@ Future<void> main() async {
         options.dsn =
             'https://7470e4eeb50e49fdba47b5e48d4e09f6@o496488.ingest.sentry.io/5571285';
       },
-      //appRunner: () => runApp(MyApp()),
     )
   ];
   runApp(MyApp());
@@ -74,8 +74,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     preferencesPrefix: 'rateMyApp_',
     appStoreIdentifier: '1545741185',
     minDays: 0, // Show rate popup on first day of install.
-    minLaunches:
-        8, // Show rate popup after 8 launches of app after minDays is passed.
+    minLaunches: 8, // Show rate popup after 8 launches
+    // of app after minDays is passed.
   );
 
   final widgetElements = new ListEntries(); // from listentries.dart
@@ -159,12 +159,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   // Release back device's orientations when the page is exited
   @override
   dispose() {
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.portraitUp,
-      DeviceOrientation.portraitDown,
-    ]);
+    SystemChrome.setPreferredOrientations(
+      [
+        DeviceOrientation.landscapeRight,
+        DeviceOrientation.landscapeLeft,
+        DeviceOrientation.portraitUp,
+        DeviceOrientation.portraitDown,
+      ],
+    );
     // Stop speaking
     stop();
     WidgetsBinding.instance.removeObserver(this);
@@ -196,6 +198,26 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           "Dictionary of Insurance Terms",
           style: TextStyle(fontSize: 20),
         ),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(
+              Icons.share,
+              color: Colors.white,
+            ),
+            onPressed: () {
+              if (Platform.isAndroid) {
+                Share.share(
+                    'This dictionary is very good \n Have a look at it: \n https://play.google.com/store/apps/details?id=com.aplanetbit.dictionary.insurance',
+                    subject: 'Very good dictionary');
+              } else {
+                Share.share(
+                    'This dictionary is very good \n Have a look at it: \n https://apps.apple.com/us/app/dictionary-of-insurance/id1545741185',
+                    subject: 'Very good dictionary');
+              }
+              // do something
+            },
+          )
+        ],
       ),
       // Hamburguer menu AKA drawer in flutter
       drawer: Drawer(

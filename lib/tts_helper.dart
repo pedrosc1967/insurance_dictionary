@@ -62,7 +62,7 @@ Future speak(String text) async {
 
   if (text != null) {
     if (text.isNotEmpty) {
-      flutterTts.setLanguage('en-US');
+      flutterTts.setLanguage('en-US'); // Hardcoded language
       var result = await flutterTts.speak(text);
       if (result == 1) ttsState = TtsState.playing;
     }

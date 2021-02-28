@@ -113,9 +113,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   prefixIcon: IconButton(
                     onPressed: () {
                       voiceSearch();
-                      //if (!isListening) {
-                      //  hint = 'Search your term';
-                      // }
                     },
                     icon: Icon(isListening ? Icons.mic : Icons.mic_none),
                   ),
@@ -148,14 +145,12 @@ class _SearchScreenState extends State<SearchScreen> {
                     results = items;
                   } catch (e) {
                     print(e);
-                    //results = items;
                   }
 
                   return ListView.builder(
                     shrinkWrap: true,
                     itemBuilder: (BuildContext context, int index) {
                       var entrada = results[index];
-                      //print(entrada);
 
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 2.0),
@@ -193,7 +188,6 @@ class _SearchScreenState extends State<SearchScreen> {
                   );
                 },
               ),
-              //child: searchedItems,
             ),
           ],
         ),

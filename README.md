@@ -1,16 +1,18 @@
-# insurance_dictionary
+= Insurance Dictionary
 
-Dictionary of insurance
+Dictionary of insurance terms
 
-## Getting Started
+== Introduction
 
-This project is a starting point for a Flutter application.
+This project is for an app that shows the insurance definitions from the NAIC.
+In future releases it will contain definitions of other acknowledges sources in different coutnries
+like Mapfre in Spain using a localized interface
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* It contains also the capabilities to do an alphabetical search
+* There is a search bar to type what wants to be located
+* It has a voice recognition feature that allow to search entries of the dictionary using the voice.
+* There is, as well, the possibility to make that the dictionary reads the contents of each entry using Text to Speech (TTS)
+* The applications has a button to share it's usage via social networks.
+* It is possible to share, as well entries and definitions using social networks.
+* It will be possible to select the source of the definitions when more than one dictionary is
+included in the app.

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'dart:io' show Platform;
+import 'package:insurance_dictionary/globals.dart';
 
 enum TtsState { playing, stopped }
 
@@ -51,7 +52,7 @@ initTts() {
 
 Future getLanguages() async {
   languages = await flutterTts.getLanguages;
-  print("pritty print ${languages}");
+  print("pritty print $languages");
   //  if (languages != null) setState(() => languages);
 }
 
@@ -60,9 +61,11 @@ Future speak(String text) async {
   await flutterTts.setSpeechRate(rate);
   await flutterTts.setPitch(pitch);
 
+  print(defaultLocale);
+
   if (text != null) {
     if (text.isNotEmpty) {
-      flutterTts.setLanguage('en-US'); // Hardcoded language
+      flutterTts.setLanguage(defaultLocale); // Not hardcoded language
       var result = await flutterTts.speak(text);
       if (result == 1) ttsState = TtsState.playing;
     }

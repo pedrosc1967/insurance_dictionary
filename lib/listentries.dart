@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:insurance_dictionary/globals.dart';
 import 'destination.dart';
 import 'package:insurance_dictionary/facebook_code.dart';
 import 'dart:io';
@@ -27,8 +28,7 @@ class ListEntriesState extends State<ListEntries> {
       body: Container(
         child: Center(
           child: FutureBuilder(
-            future:
-                DefaultAssetBundle.of(context).loadString('assets/data.json'),
+            future: DefaultAssetBundle.of(context).loadString(dataFilename),
             builder: (context, snapshot) {
               var entries = json.decode(snapshot.data.toString());
               //print(entries);

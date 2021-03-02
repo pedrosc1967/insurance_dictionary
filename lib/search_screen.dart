@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'destination.dart';
 import 'dart:convert';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
+import 'package:insurance_dictionary/globals.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 String query;
-String hint = 'Search your term';
+String hint = 'search_voice'.tr();
 String status;
 
 stt.SpeechToText speech = stt.SpeechToText();
@@ -35,7 +37,7 @@ extension StringExtension on String {
 
 filterSearchResults(query) async {
   try {
-    final items = json.decode('assets/data.json'.toString());
+    final items = json.decode(dataFilename.toString());
     var results = items
         .where((item) =>
             item['Entry'].toString().contains(query.toString().capitalize()))
@@ -88,7 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          "Back to Menu Items",
+          'back_menu'.tr(),
           style: TextStyle(fontSize: 20),
         ),
       ),
@@ -108,7 +110,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   );
                 },
                 decoration: InputDecoration(
-                  labelText: 'Search',
+                  labelText: 'search'.tr(),
                   hintText: hint,
                   prefixIcon: IconButton(
                     onPressed: () {
@@ -127,8 +129,7 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
             Expanded(
               child: FutureBuilder(
-                future: DefaultAssetBundle.of(context)
-                    .loadString('assets/data.json'),
+                future: DefaultAssetBundle.of(context).loadString(dataFilename),
                 builder: (context, snapshot) {
                   var results;
                   // String query = 'Accident';

@@ -23,6 +23,8 @@ import 'tts_helper.dart';
 import 'package:flutter_tts/flutter_tts.dart';
 import 'package:speech_to_text/speech_to_text.dart' as stt;
 import 'package:share/share.dart';
+import 'globals.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,7 +37,14 @@ Future<void> main() async {
       },
     )
   ];
-  runApp(MyApp());
+  runApp(
+    EasyLocalization(
+      supportedLocales: [Locale('en', 'US'), Locale('es', 'ES')],
+      path: 'assets/translations', // <-- change patch to your
+      fallbackLocale: Locale('en', 'US'),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -46,6 +55,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      localizationsDelegates: context.localizationDelegates,
+      supportedLocales: context.supportedLocales,
+      locale: context.locale,
       home: HomePage(),
       navigatorObservers: [
         FirebaseAnalyticsObserver(analytics: analytics),
@@ -56,12 +69,14 @@ class MyApp extends StatelessWidget {
 
 class HomePage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  HomePageState createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
+class HomePageState extends State<HomePage> with WidgetsBindingObserver {
   int selectedIndex = 0;
   FlutterTts flutterTts;
+  final String myLocale =
+      Platform.localeName; // Returns locale string in the form 'en_US'
 
   PackageInfo _packageInfo = PackageInfo(
     appName: 'Unknown',
@@ -148,6 +163,30 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     initTts();
     speech = stt.SpeechToText();
 
+    //Select data file
+    defaultLocale = myLocale;
+    print('Locales is: ' + defaultLocale);
+
+    switch (defaultLocale) {
+      case 'en':
+        {
+          dataFilename = 'assets/data-naic.json';
+        }
+        break;
+
+      case 'es_ES':
+        {
+          dataFilename = 'assets/data-sp.json';
+        }
+        break;
+
+      default:
+        {
+          dataFilename = 'assets/data-naic.json';
+        }
+        break;
+    }
+
     SystemChrome.setPreferredOrientations(
       [
         DeviceOrientation.portraitUp,
@@ -195,7 +234,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          "Dictionary of Insurance Terms",
+          'title'.tr(),
           style: TextStyle(fontSize: 20),
         ),
         actions: <Widget>[
@@ -207,12 +246,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             onPressed: () {
               if (Platform.isAndroid) {
                 Share.share(
-                    'This dictionary is very good \n Have a look at it: \n https://play.google.com/store/apps/details?id=com.aplanetbit.dictionary.insurance',
-                    subject: 'Very good dictionary');
+                  'share_text_android'.tr(),
+                  subject: 'share_subject'.tr(),
+                );
               } else {
                 Share.share(
-                    'This dictionary is very good \n Have a look at it: \n https://apps.apple.com/us/app/dictionary-of-insurance/id1545741185',
-                    subject: 'Very good dictionary');
+                  'share_text_ios'.tr(),
+                  subject: 'share_subject'.tr(),
+                );
               }
               // do something
             },
@@ -225,7 +266,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           children: <Widget>[
             ListTile(
               title: Text(
-                "Other Apps",
+                'other_apps'.tr(), //Other apps
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
@@ -244,40 +285,47 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             ),
             ListTile(
               title: Text(
-                "About",
+                "about".tr(), //About
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
                 showAboutDialog(
-                    context: context,
-                    applicationVersion: '\n Version: ' + _packageInfo.version,
-                    applicationIcon: CircleAvatar(
-                      backgroundColor: Colors.transparent,
-                      radius: Constants.avatarRadius,
-                      child: ClipRRect(
-                          borderRadius: BorderRadius.all(
-                              Radius.circular(Constants.avatarRadius)),
-                          child: Image.asset("assets/logoaplanetbit.png")),
-                    ),
-                    applicationLegalese:
-                        "\n\nSource: © 2021 National Association of Insurance Commissioners (NAIC). Reprinted with permission. Further reprint or distribution strictly prohibited without written permission of NAIC.\n \nIcons made by flaticon.com ",
-                    applicationName: 'Dictionary of Insurance');
+                  context: context,
+                  applicationVersion: 'version'.tr() + _packageInfo.version,
+                  applicationIcon: CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: Constants.avatarRadius,
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.all(
+                            Radius.circular(Constants.avatarRadius)),
+                        child: Image.asset("assets/logoaplanetbit.png")),
+                  ),
+                  applicationLegalese: 'app_legalese'.tr(),
+                  applicationName: 'title'.tr(),
+                );
               },
               trailing: Icon(Icons.arrow_forward),
             ),
             ListTile(
               title: Text(
-                "Rate Us",
+                'rate_us'.tr(), //Rate Us
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
-                rateMyApp.showRateDialog(context);
+                rateMyApp.showRateDialog(
+                  context,
+                  title: 'rate_title'.tr(),
+                  message: 'rate_message'.tr(),
+                  rateButton: 'rate_button'.tr(),
+                  noButton: 'rate_no'.tr(),
+                  laterButton: 'rate_maybe'.tr(),
+                );
               },
               trailing: Icon(Icons.speed),
             ),
             ListTile(
               title: Text(
-                "AplanetBit Web",
+                'aplanetbit_web'.tr(), //AplanetBit Web
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
@@ -294,7 +342,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             ),
             ListTile(
               title: Text(
-                "Search",
+                'search'.tr(),
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {
@@ -311,7 +359,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             ),
             ListTile(
               title: Text(
-                "Alphabetical Index",
+                'alphabetical_index'.tr(),
                 style: TextStyle(fontSize: 20),
               ),
               onTap: () {

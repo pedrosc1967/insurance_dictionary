@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:insurance_dictionary/tts_helper.dart';
 import 'facebook_code.dart';
 import 'package:share/share.dart';
+import 'package:easy_localization/easy_localization.dart';
 
 // ignore: must_be_immutable...
 class Destination extends StatefulWidget {
@@ -76,7 +77,7 @@ class DestinationState extends State<Destination> {
                 },
                 color: Colors.green[900],
                 child: Text(
-                  "Say it!",
+                  'say_button'.tr(),
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Raleway',
@@ -99,7 +100,7 @@ class DestinationState extends State<Destination> {
                 },
                 color: Colors.red[900],
                 child: Text(
-                  "Stop",
+                  'stop_button'.tr(),
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Raleway',
@@ -122,7 +123,7 @@ class DestinationState extends State<Destination> {
                 },
                 color: Colors.blue[900],
                 child: Text(
-                  "Back to Contents",
+                  'back_button'.tr(),
                   style: TextStyle(
                     color: Colors.white,
                     fontFamily: 'Raleway',

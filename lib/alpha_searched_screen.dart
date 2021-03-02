@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'listentries.dart';
+import 'package:insurance_dictionary/globals.dart';
 import 'destination.dart';
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 
 // ignore: must_be_immutable
 class AlphaSearchedScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class AlphaSearchedScreen extends StatefulWidget {
 
 filterSearchResults(query) async {
   try {
-    final items = json.decode('assets/data.json'.toString());
+    final items = json.decode(dataFilename.toString());
     var results = items
         .where((item) =>
             item['Entry'].toString().startsWith(query.toString().toUpperCase()))
@@ -37,7 +38,7 @@ class _SearchScreenState extends State<AlphaSearchedScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          "Back to Alphabetical Index",
+          'back_alpha'.tr(),
           style: TextStyle(fontSize: 20),
         ),
       ),
@@ -49,8 +50,7 @@ class _SearchScreenState extends State<AlphaSearchedScreen> {
             ),
             Expanded(
               child: FutureBuilder(
-                future: DefaultAssetBundle.of(context)
-                    .loadString('assets/data.json'),
+                future: DefaultAssetBundle.of(context).loadString(dataFilename),
                 builder: (context, snapshot) {
                   var results;
                   final items = json.decode(snapshot.data.toString());

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:insurance_dictionary/alpha_searched_screen.dart';
 import 'dart:convert';
+import 'package:easy_localization/easy_localization.dart';
 
 // ignore: must_be_immutable
 class AlphabeticalScreen extends StatefulWidget {
@@ -36,7 +37,7 @@ class _SearchScreenState extends State<AlphabeticalScreen> {
       appBar: AppBar(
         backgroundColor: Colors.black,
         title: Text(
-          "Back to Menu Items",
+          'back_menu'.tr(),
           style: TextStyle(fontSize: 20),
         ),
       ),

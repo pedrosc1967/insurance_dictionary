@@ -39,7 +39,11 @@ Future<void> main() async {
   ];
   runApp(
     EasyLocalization(
-      supportedLocales: [Locale('en', 'US'), Locale('es', 'ES')],
+      supportedLocales: [
+        Locale('en', 'US'),
+        Locale('es', 'ES'),
+        Locale('it', 'IT')
+      ],
       path: 'assets/translations', // <-- change patch to your
       fallbackLocale: Locale('en', 'US'),
       child: MyApp(),
@@ -177,6 +181,12 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
       case 'es_ES':
         {
           dataFilename = 'assets/data-sp.json';
+        }
+        break;
+
+      case 'it_IT':
+        {
+          dataFilename = 'assets/data-it.json';
         }
         break;
 

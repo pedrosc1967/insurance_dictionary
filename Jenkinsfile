@@ -39,6 +39,7 @@ pipeline {
                       dir('ios'){
                                sh "bundle install"
                                sh "bundle exec fastlane buildAdHoc --verbose"
+                               sh "cp /Users/aplanetbit/.jenkins/workspace/'Dictionary of Insurance'/ios/Runner.ipa /Users/aplanetbit/Downloads/Runner.ipa"
                       }
                  }
             }

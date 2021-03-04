@@ -86,6 +86,9 @@
 		B32EE07F25EFB3470016FBD4 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B331C2692587846600EA2E7A /* OneSignalNotificationServiceExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OneSignalNotificationServiceExtension.entitlements; sourceTree = "<group>"; };
 		B33A331B2580EAF100BDB65B /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		B39670DF25F175410021640A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
+		B39670E025F175410021640A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		B39670E125F175410021640A /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B39C692E2580D68F008F49A7 /* OneSignalNotificationServiceExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = OneSignalNotificationServiceExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B39C69302580D68F008F49A7 /* NotificationService.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NotificationService.h; sourceTree = "<group>"; };
 		B39C69312580D68F008F49A7 /* NotificationService.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NotificationService.m; sourceTree = "<group>"; };
@@ -269,6 +272,7 @@
 				Base,
 				es,
 				it,
+				fr,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
@@ -432,6 +436,7 @@
 				97C146FB1CF9000F007C117D /* Base */,
 				B32EE06F25EFB0E50016FBD4 /* es */,
 				B32EE07125EFB12B0016FBD4 /* it */,
+				B39670DF25F175410021640A /* fr */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -442,6 +447,7 @@
 				97C147001CF9000F007C117D /* Base */,
 				B32EE07025EFB0E50016FBD4 /* es */,
 				B32EE07225EFB12C0016FBD4 /* it */,
+				B39670E025F175410021640A /* fr */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -452,6 +458,7 @@
 				B32EE07B25EFB32C0016FBD4 /* en */,
 				B32EE07E25EFB3460016FBD4 /* it */,
 				B32EE07F25EFB3470016FBD4 /* es */,
+				B39670E125F175410021640A /* fr */,
 			);
 			name = InfoPlist.strings;
 			sourceTree = "<group>";

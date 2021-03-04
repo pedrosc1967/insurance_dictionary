@@ -42,7 +42,8 @@ Future<void> main() async {
       supportedLocales: [
         Locale('en', 'US'),
         Locale('es', 'ES'),
-        Locale('it', 'IT')
+        Locale('it', 'IT'),
+        Locale('fr', 'FR')
       ],
       path: 'assets/translations', // <-- change patch to your
       fallbackLocale: Locale('en', 'US'),
@@ -187,6 +188,12 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
       case 'it_IT':
         {
           dataFilename = 'assets/data-it.json';
+        }
+        break;
+
+      case 'fr_FR':
+        {
+          dataFilename = 'assets/data-fr.json';
         }
         break;
 

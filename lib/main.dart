@@ -106,7 +106,7 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
     FacebookAudienceNetwork.init(
       testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
     );
-    //This is for Rate My App
+    //This is for Rate My App...
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
         await rateMyApp.init();

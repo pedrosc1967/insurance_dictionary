@@ -1,9 +1,12 @@
-import 'package:facebook_audience_network/facebook_audience_network.dart';
+import 'package:mopub_flutter/mopub.dart';
+import 'package:mopub_flutter/mopub_banner.dart';
+import 'package:mopub_flutter/mopub_constants.dart';
+import 'package:mopub_flutter/mopub_interstitial.dart';
+import 'package:mopub_flutter/mopub_rewarded.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:insurance_dictionary/alphabetical_screen.dart';
 import 'dart:io' show Platform;
-import 'facebook_code.dart';
 import 'listentries.dart';
 import 'navigate.dart';
 import 'constants.dart';
@@ -79,6 +82,7 @@ class HomePage extends StatefulWidget {
 }
 
 class HomePageState extends State<HomePage> with WidgetsBindingObserver {
+  MoPubInterstitialAd interstitialAd;
   int selectedIndex = 0;
   FlutterTts flutterTts;
   final String myLocale =
@@ -101,12 +105,11 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   final widgetElements = new ListEntries(); // from listentries.dart
   bool isInterstitialAdLoaded = false;
+  String interstitialID;
+  String bannerID;
 
   @override
   Future<void> initState() {
-    FacebookAudienceNetwork.init(
-      testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
-    );
     //This is for Rate My App...
     WidgetsBinding.instance.addPostFrameCallback(
       (_) async {
@@ -116,6 +119,20 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
         }
       },
     );
+
+    if (Platform.isAndroid) {
+      interstitialID = Constants.interstitialAndroid;
+      bannerID = Constants.bannerAndroid;
+    } else {
+      interstitialID = Constants.interstitialiOS;
+      bannerID = Constants.banneriOS;
+    }
+
+    try {
+      MoPub.init(interstitialID, testMode: true).then((_) {
+        loadInterstitialAd();
+      });
+    } on PlatformException {}
 
     //Remove this method to stop OneSignal Debugging
     OneSignal.shared.setLogLevel(OSLogLevel.verbose, OSLogLevel.none);
@@ -161,8 +178,8 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
 // For each of the above functions, you can also pass in a
 // reference to a function as well:....
 
-    loadInterstitialAd();
-    loadBannerAd();
+//    loadInterstitialAd();
+//    loadBannerAd();
     WidgetsBinding.instance.addObserver(this);
     super.initState();
     _initPackageInfo();
@@ -217,9 +234,10 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
         DeviceOrientation.portraitDown,
       ],
     );
-  }
+  } // initState()
 
   // Release back device's orientations when the page is exited
+  // Release interstitialAd
   @override
   dispose() {
     SystemChrome.setPreferredOrientations(
@@ -233,6 +251,7 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
     // Stop speaking
     stop();
     WidgetsBinding.instance.removeObserver(this);
+    interstitialAd.dispose();
     super.dispose();
   }
 
@@ -249,6 +268,16 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
       () {
         _packageInfo = info;
       },
+    );
+  }
+
+  void loadInterstitialAd() {
+    interstitialAd = MoPubInterstitialAd(
+      Constants.bannerAndroid, // this needs to be changed
+      (result, args) {
+        print('Interstitial $result');
+      },
+      reloadOnClosed: true,
     );
   }
 
@@ -418,7 +447,14 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
         //
         child: widgetElements,
       ),
-      bottomNavigationBar: bannerAd,
+      bottomNavigationBar: MoPubBannerAd(
+        adUnitId: bannerID,
+        bannerSize: BannerSize.STANDARD,
+        keepAlive: true,
+        listener: (result, dynamic) {
+          print('$result');
+        },
+      ),
     );
   }
 }

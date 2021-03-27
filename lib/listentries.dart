@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:insurance_dictionary/globals.dart';
 import 'destination.dart';
-import 'package:insurance_dictionary/facebook_code.dart';
+import 'package:insurance_dictionary/mopub_code.dart';
 import 'dart:io';
 
 class ListEntries extends StatefulWidget {
@@ -47,9 +47,8 @@ class ListEntriesState extends State<ListEntries> {
                       ),
                       onPressed: () {
                         if ((isFirstUse) || (numUses % cycle == 0)) {
-                          loadInterstitialAd();
                           sleep(Duration(milliseconds: 100));
-                          showInterstitialAd();
+                          interstitialAd.show(); //Mopub intestitial ad
                           isFirstUse = false;
                           numUses++;
                         } else {

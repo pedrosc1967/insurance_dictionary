@@ -1,7 +1,12 @@
-import 'package:facebook_audience_network/facebook_audience_network.dart';
+import 'package:mopub_flutter/mopub.dart';
+import 'package:mopub_flutter/mopub_banner.dart';
+import 'package:mopub_flutter/mopub_constants.dart';
+import 'package:mopub_flutter/mopub_interstitial.dart';
+import 'package:mopub_flutter/mopub_rewarded.dart';
+import 'dart:io' show Platform;
+import 'constants.dart';
 import 'package:flutter/material.dart';
 import 'package:insurance_dictionary/tts_helper.dart';
-import 'facebook_code.dart';
 import 'package:share/share.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -18,14 +23,18 @@ class Destination extends StatefulWidget {
 
 class DestinationState extends State<Destination> {
   bool isInterstitialAdLoaded = false;
+  String interstitialID;
+  String bannerID;
 
   @override
   void initState() {
-    FacebookAudienceNetwork.init(
-      testingId: "37b1da9d-b48c-4103-a393-2e095e734bd6", //optional
-    );
-    loadInterstitialAd(); //This was called in main
-    loadBannerAd();
+    if (Platform.isAndroid) {
+      interstitialID = Constants.interstitialAndroid;
+      bannerID = Constants.bannerAndroid;
+    } else {
+      interstitialID = Constants.interstitialiOS;
+      bannerID = Constants.banneriOS;
+    }
     super.initState();
   }
 
@@ -135,7 +144,14 @@ class DestinationState extends State<Destination> {
           ],
         ),
       ),
-      bottomNavigationBar: bannerAd,
+      bottomNavigationBar: MoPubBannerAd(
+        adUnitId: bannerID,
+        bannerSize: BannerSize.STANDARD,
+        keepAlive: true,
+        listener: (result, dynamic) {
+          print('$result');
+        },
+      ),
     );
   }
 }

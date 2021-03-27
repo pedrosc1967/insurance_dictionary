@@ -1,10 +1,5 @@
 PODS:
-  - facebook_audience_network (0.0.1):
-    - FBAudienceNetwork (= 5.10.1)
-    - Flutter
-  - FBAudienceNetwork (5.10.1):
-    - FBSDKCoreKit/Basics (>= 5.6.0)
-  - FBSDKCoreKit/Basics (8.2.0)
+  - AdColony (4.1.4)
   - Firebase/Analytics (6.33.0):
     - Firebase/Core
   - Firebase/Core (6.33.0):
@@ -46,6 +41,8 @@ PODS:
   - Flutter (1.0.0)
   - flutter_tts (0.0.1):
     - Flutter
+  - Google-Mobile-Ads-SDK (7.59.0):
+    - GoogleAppMeasurement (~> 6.0)
   - GoogleAppMeasurement (6.8.3):
     - GoogleUtilities/AppDelegateSwizzler (~> 6.7)
     - GoogleUtilities/MethodSwizzler (~> 6.7)
@@ -73,6 +70,52 @@ PODS:
     - GoogleUtilities/Logger
   - GoogleUtilities/UserDefaults (6.7.2):
     - GoogleUtilities/Logger
+  - MoPub-AdColony-Adapters (4.1.4.0):
+    - MoPub-AdColony-Adapters/MoPub (= 4.1.4.0)
+    - MoPub-AdColony-Adapters/Network (= 4.1.4.0)
+  - MoPub-AdColony-Adapters/MoPub (4.1.4.0):
+    - mopub-ios-sdk/Core (~> 5.6)
+  - MoPub-AdColony-Adapters/Network (4.1.4.0):
+    - AdColony (= 4.1.4)
+    - mopub-ios-sdk/Core (~> 5.6)
+  - MoPub-AdMob-Adapters (7.59.0.0):
+    - MoPub-AdMob-Adapters/MoPub (= 7.59.0.0)
+    - MoPub-AdMob-Adapters/Network (= 7.59.0.0)
+  - MoPub-AdMob-Adapters/MoPub (7.59.0.0):
+    - mopub-ios-sdk/Core (~> 5.8)
+    - mopub-ios-sdk/NativeAds (~> 5.8)
+  - MoPub-AdMob-Adapters/Network (7.59.0.0):
+    - Google-Mobile-Ads-SDK (= 7.59.0)
+    - mopub-ios-sdk/Core (~> 5.8)
+    - mopub-ios-sdk/NativeAds (~> 5.8)
+  - mopub-ios-sdk (5.12.1):
+    - mopub-ios-sdk/MoPubSDK (= 5.12.1)
+  - mopub-ios-sdk/Avid (5.12.1):
+    - mopub-ios-sdk/Core
+  - mopub-ios-sdk/Core (5.12.1)
+  - mopub-ios-sdk/Moat (5.12.1):
+    - mopub-ios-sdk/Core
+  - mopub-ios-sdk/MoPubSDK (5.12.1):
+    - mopub-ios-sdk/Avid
+    - mopub-ios-sdk/Core
+    - mopub-ios-sdk/Moat
+    - mopub-ios-sdk/NativeAds
+  - mopub-ios-sdk/NativeAds (5.12.1):
+    - mopub-ios-sdk/Core
+  - MoPub-TapJoy-Adapters (12.4.2.0):
+    - MoPub-TapJoy-Adapters/MoPub (= 12.4.2.0)
+    - MoPub-TapJoy-Adapters/Network (= 12.4.2.0)
+  - MoPub-TapJoy-Adapters/MoPub (12.4.2.0):
+    - mopub-ios-sdk/Core (~> 5.6)
+  - MoPub-TapJoy-Adapters/Network (12.4.2.0):
+    - mopub-ios-sdk/Core (~> 5.6)
+    - TapjoySDK (= 12.4.2)
+  - mopub_flutter (1.1.1):
+    - Flutter
+    - MoPub-AdColony-Adapters
+    - MoPub-AdMob-Adapters
+    - mopub-ios-sdk
+    - MoPub-TapJoy-Adapters
   - nanopb (1.30906.0):
     - nanopb/decode (= 1.30906.0)
     - nanopb/encode (= 1.30906.0)
@@ -100,17 +143,18 @@ PODS:
   - speech_to_text (0.0.1):
     - Flutter
     - Try
+  - TapjoySDK (12.4.2)
   - Try (2.1.1)
   - url_launcher (0.0.1):
     - Flutter
 
 DEPENDENCIES:
-  - facebook_audience_network (from `.symlinks/plugins/facebook_audience_network/ios`)
   - Firebase/Analytics
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
   - Flutter (from `Flutter`)
   - flutter_tts (from `.symlinks/plugins/flutter_tts/ios`)
+  - mopub_flutter (from `.symlinks/plugins/mopub_flutter/ios`)
   - OneSignal (< 3.0, >= 2.9.3)
   - onesignal_flutter (from `.symlinks/plugins/onesignal_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
@@ -123,25 +167,28 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
-    - FBAudienceNetwork
-    - FBSDKCoreKit
+    - AdColony
     - Firebase
     - FirebaseAnalytics
     - FirebaseCore
     - FirebaseCoreDiagnostics
     - FirebaseInstallations
+    - Google-Mobile-Ads-SDK
     - GoogleAppMeasurement
     - GoogleDataTransport
     - GoogleUtilities
+    - MoPub-AdColony-Adapters
+    - MoPub-AdMob-Adapters
+    - mopub-ios-sdk
+    - MoPub-TapJoy-Adapters
     - nanopb
     - OneSignal
     - PromisesObjC
     - Sentry
+    - TapjoySDK
     - Try
 
 EXTERNAL SOURCES:
-  facebook_audience_network:
-    :path: ".symlinks/plugins/facebook_audience_network/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
@@ -150,6 +197,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   flutter_tts:
     :path: ".symlinks/plugins/flutter_tts/ios"
+  mopub_flutter:
+    :path: ".symlinks/plugins/mopub_flutter/ios"
   onesignal_flutter:
     :path: ".symlinks/plugins/onesignal_flutter/ios"
   package_info:
@@ -168,9 +217,7 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/url_launcher/ios"
 
 SPEC CHECKSUMS:
-  facebook_audience_network: ac182eb8f9c22f646baea97d5f5fb1f0f7521ab8
-  FBAudienceNetwork: 6cdcc40aa475e8045ab14398e181a3dc90a5014e
-  FBSDKCoreKit: 4afd6ff53d8133a433dbcda44451c9498f8c6ce4
+  AdColony: fc02f429d6c4591567c7ae1426ebfcecb704b11f
   Firebase: 8db6f2d1b2c5e2984efba4949a145875a8f65fe5
   firebase_analytics: 36a619088c46224900829f14f4daa71585693a6f
   firebase_core: 5d6a02f3d85acd5f8321c2d6d62877626a670659
@@ -180,9 +227,15 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 466c7b4d1f58fe16707693091da253726a731ed2
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   flutter_tts: 0f492aab6accf87059b72354fcb4ba934304771d
+  Google-Mobile-Ads-SDK: 118217ac8b80e28aabe0c00aedab1cd885857776
   GoogleAppMeasurement: 966e88df9d19c15715137bb2ddaf52373f111436
   GoogleDataTransport: f56af7caa4ed338dc8e138a5d7c5973e66440833
   GoogleUtilities: 7f2f5a07f888cdb145101d6042bc4422f57e70b3
+  MoPub-AdColony-Adapters: 339f0dba83cb8c0042be07018624b5e09ef119f6
+  MoPub-AdMob-Adapters: 6b1185d919fddb12886c69cd46f559f0245915b4
+  mopub-ios-sdk: d1640225b34ad74700e2acddb116cac634fc45d8
+  MoPub-TapJoy-Adapters: ad9088d972362290426274a908fb5da0a38d9466
+  mopub_flutter: 00e319e30b96d810c33e5685dcdd22cf9f48b88a
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   OneSignal: 5f6514ec2b931306eb067acb124afbb2e49970af
   onesignal_flutter: 260bb95c0a2d791c990c7bd8749525c9834d43fc
@@ -194,9 +247,10 @@ SPEC CHECKSUMS:
   share: 0b2c3e82132f5888bccca3351c504d0003b3b410
   shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   speech_to_text: b43a7d99aef037bd758ed8e45d79bbac035d2dfe
+  TapjoySDK: c8d73f291cfe922cb8bb2c3ae09b5af0b2863841
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
 PODFILE CHECKSUM: a1b19beff36f170242f932135a4c13b7f734ac8b
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1

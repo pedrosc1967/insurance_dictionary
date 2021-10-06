@@ -186,17 +186,17 @@ SPEC CHECKSUMS:
   nanopb: 59317e09cf1f1a0af72f12af412d54edf52603fc
   OneSignal: 5f6514ec2b931306eb067acb124afbb2e49970af
   onesignal_flutter: 260bb95c0a2d791c990c7bd8749525c9834d43fc
-  package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
+  package_info: 15749268925eb7e487f95d5dcf16222bbc3350e4
   PromisesObjC: 8c196f5a328c2cba3e74624585467a557dcb482f
-  rate_my_app: 3b64dd0876bd286001595ee2e69193e757c4d77c
+  rate_my_app: 4acfee11e5714fb356f253ee49de734f22310898
   Sentry: 9d055e2de30a77685e86b219acf02e59b82091fc
   sentry_flutter: 8b2b2e1c0101ef562106b5d272d3c0c741512c01
-  share: 0b2c3e82132f5888bccca3351c504d0003b3b410
-  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
+  share: 6a81bbc1251b2741184ed91e041162f9127269e6
+  shared_preferences: 4e45c040c98c4991d7a0873bbb265a53c7c15da2
   speech_to_text: b43a7d99aef037bd758ed8e45d79bbac035d2dfe
   Try: 5ef669ae832617b3cee58cb2c6f99fb767a4ff96
-  url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
+  url_launcher: 269982f8818077ab1abfb1df348eff7e8c459ade
 
 PODFILE CHECKSUM: a1b19beff36f170242f932135a4c13b7f734ac8b
 
-COCOAPODS: 1.10.0
+COCOAPODS: 1.10.1

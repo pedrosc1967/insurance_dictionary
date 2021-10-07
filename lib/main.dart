@@ -61,6 +61,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(fontFamily: 'Doboto'),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
@@ -279,7 +280,6 @@ class HomePageState extends State<HomePage> with WidgetsBindingObserver {
                   subject: 'share_subject'.tr(),
                 );
               }
-              // do something
             },
           )
         ],

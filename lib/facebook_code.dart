@@ -33,6 +33,7 @@ void showInterstitialAd() {
   }
 }
 
+// Banner for FR, Admob mediation...
 Widget bannerAd = SizedBox(width: 0, height: 0);
 
 void loadBannerAd() {

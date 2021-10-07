@@ -4,6 +4,8 @@ import 'package:insurance_dictionary/tts_helper.dart';
 import 'facebook_code.dart';
 import 'package:share/share.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:insurance_dictionary/utils/responsive.dart';
+import 'package:insurance_dictionary/constants.dart';
 
 // ignore: must_be_immutable...
 class Destination extends StatefulWidget {
@@ -31,6 +33,7 @@ class DestinationState extends State<Destination> {
 
   @override
   Widget build(BuildContext context) {
+    final Responsive responsive = Responsive(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(
@@ -60,7 +63,13 @@ class DestinationState extends State<Destination> {
               child: Text(
                 widget.definition,
                 textAlign: TextAlign.left,
-                style: TextStyle(fontSize: 20),
+                style: TextStyle(
+                  color: Colors.black,
+                  fontFamily: 'Doboto',
+                  fontStyle: FontStyle.italic,
+                  fontSize:
+                      responsive.hp(Constants.heigthPercentFontSize * 1.4),
+                ),
               ),
             ),
             Container(
@@ -70,16 +79,18 @@ class DestinationState extends State<Destination> {
               height: 60,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue[900],
+                  primary: Colors.blue[500],
                   onPrimary: Colors.white,
                   shadowColor: Colors.greenAccent,
                   elevation: 3,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32.0)),
-                  minimumSize: Size(double.infinity, 40), // full width
+                  minimumSize:
+                      Size(responsive.wp(100), 40), // full width ==> 100%
                 ),
                 onPressed: () {
-                  speak(widget.entry + '\n ' + widget.definition);
+                  speak(widget.entry);
+                  // speak(widget.definition);
                 },
                 child: Text(
                   'say_button'.tr(),
@@ -98,13 +109,14 @@ class DestinationState extends State<Destination> {
               height: 60,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue[900],
+                  primary: Colors.red[500],
                   onPrimary: Colors.white,
                   shadowColor: Colors.greenAccent,
                   elevation: 3,
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32.0)),
-                  minimumSize: Size(double.infinity, 40), // full width
+                  minimumSize: Size(
+                      responsive.wp(100), 40), // full width ==> 100% of width
                 ),
                 onPressed: () {
                   stop();
@@ -126,7 +138,7 @@ class DestinationState extends State<Destination> {
               height: 60,
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.blue[900],
+                  primary: Colors.blue[500],
                   onPrimary: Colors.white,
                   shadowColor: Colors.greenAccent,
                   elevation: 3,

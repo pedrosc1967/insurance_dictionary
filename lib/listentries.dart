@@ -1,7 +1,9 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
+import 'package:insurance_dictionary/constants.dart';
 import 'package:insurance_dictionary/globals.dart';
+import 'package:insurance_dictionary/utils/responsive.dart';
 import 'destination.dart';
 import 'package:insurance_dictionary/facebook_code.dart';
 import 'dart:io';
@@ -24,6 +26,7 @@ class ListEntriesState extends State<ListEntries> {
 
   @override
   Widget build(BuildContext context) {
+    final Responsive responsive = Responsive(context);
     return Scaffold(
       body: Container(
         child: Center(
@@ -39,17 +42,17 @@ class ListEntriesState extends State<ListEntries> {
                   return Container(
                     margin: EdgeInsets.symmetric(vertical: 2.0),
                     color: Colors.transparent,
-                    width: MediaQuery.of(context).size.width,
-                    height: 60,
+                    width: responsive.wp(100),
+                    height: responsive.hp(9),
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.blue[900],
+                        primary: Colors.blue[500],
                         onPrimary: Colors.white,
                         shadowColor: Colors.greenAccent,
                         elevation: 3,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(32.0)),
-                        minimumSize: Size(double.infinity, 40), // full width
+                        minimumSize: Size(responsive.wp(100), 40), // full width
                       ),
                       onPressed: () {
                         if (numUses % cycle == 1) {
@@ -75,8 +78,10 @@ class ListEntriesState extends State<ListEntries> {
                         entrada['Entry'],
                         style: TextStyle(
                           color: Colors.white,
-                          fontFamily: 'Raleway',
-                          fontSize: 18.0,
+                          fontFamily: 'Doboto',
+                          fontStyle: FontStyle.italic,
+                          fontSize:
+                              responsive.hp(Constants.heigthPercentFontSize),
                         ),
                       ),
                     ),
